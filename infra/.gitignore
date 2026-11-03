@@ -1,22 +1,3 @@
-# CDK assets
-.cdk.staging/
-cdk.out/
-
-# npm
-node_modules/
-
-# pnpm
-pnpm-lock.yaml
-
-# python
-__pycache__/
-
-# Mac
-.DS_Store
-
-# vscode config
-.vscode/
-
-# Jetbrains
-.idea/
-*.iml
+# ts compile output
+*.js
+*.d.ts
