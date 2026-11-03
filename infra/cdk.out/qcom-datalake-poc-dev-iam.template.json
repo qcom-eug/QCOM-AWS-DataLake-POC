@@ -1,0 +1,127 @@
+{
+ "Resources": {
+  "DataLakeRole19B82055": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lakeformation.amazonaws.com"
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "glue.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Data lake access role for Lake Formation POC",
+    "RoleName": "qcom-datalake-poc-dev-datalake-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/DataLakeRole/Resource"
+   }
+  },
+  "DataLakeRoleDefaultPolicy0015170E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetPartitions"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DataLakeRoleDefaultPolicy0015170E",
+    "Roles": [
+     {
+      "Ref": "DataLakeRole19B82055"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/DataLakeRole/DefaultPolicy/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzI31TNQTCwv1k1OydbNyUzSqw4uSUzO1kksL47PTMzVqw7Kz0nVcU7LA9MB+TmZyZUgLoRVW6uTl5+SqpdVrF9mZKJnZKBnoJhVnJmpW1SaV5KZm6oXBKEBwniki2kAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefDataLakeRole19B820556526AEF4": {
+   "Value": {
+    "Ref": "DataLakeRole19B82055"
+   },
+   "Export": {
+    "Name": "qcom-datalake-poc-dev-iam:ExportsOutputRefDataLakeRole19B820556526AEF4"
+   }
+  },
+  "ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DataLakeRole19B82055",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

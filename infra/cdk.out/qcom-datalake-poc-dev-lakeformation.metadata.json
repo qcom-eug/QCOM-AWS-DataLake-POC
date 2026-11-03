@@ -1,0 +1,371 @@
+{
+  "/qcom-datalake-poc-dev-lakeformation": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:warning",
+      "data": "No cross-stack-reference strength configured, defaulting to \"strong\". We recommend you set feature flag \"@aws-cdk/core:defaultCrossStackReferences\" to \"both\", then deploy everywhere, then set it to \"weak\". Alternatively, set it to \"strong\" explicitly to lock in the current producer-protecting behavior. (See: https://github.com/aws/aws-cdk/blob/main/packages/aws-cdk-lib/README.md#reference-strength) [ack: @aws-cdk/core:crossStackReferencesDefaultStrong]",
+      "trace": [
+        "Annotations.addMessage (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:3506)",
+        "Annotations.addWarningV2 (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:2194)",
+        "resolveValue (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\private\\refs.js:1:7177)",
+        "resolveReferencesInElements (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\private\\refs.js:1:5045)",
+        "resolveReferences (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\private\\refs.js:1:4718)",
+        "prepareApp (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\private\\prepare-app.js:1:1240)",
+        "synthesize (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\private\\synthesis.js:1:2625)",
+        "App.synth (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\stage.js:1:5061)",
+        "App.synth (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\app.js:1:5364)",
+        "process.<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\aws-cdk-lib\\core\\lib\\app.js:1:4274)",
+        "process.wrapper (node:events:639:12)",
+        "process.emit (node:events:514:28)",
+        "process.emit (node:domain:489:12)",
+        "process.emit.sharedData.processEmitHook.installedValue [as emit] (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\node_modules\\@cspotcode\\source-map-support\\source-map-support.js:745:40)"
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "qcom-datalake-poc-dev-lakeformation.template.json"
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DataLakeSettings": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeSettings"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:38:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DataLakeLocation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeLocation"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:42:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Db-sales": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Dbsales"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:51:24)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DbPerm-sales": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DbPermsales"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:57:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Table-sales-orders": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tablesalesorders"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TablePerm-sales-orders": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TablePermsalesorders"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Table-sales-customers": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tablesalescustomers"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TablePerm-sales-customers": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TablePermsalescustomers"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Db-inventory": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Dbinventory"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:51:24)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DbPerm-inventory": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DbPerminventory"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:57:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Table-inventory-products": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tableinventoryproducts"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TablePerm-inventory-products": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TablePerminventoryproducts"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Table-inventory-stock_levels": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tableinventorystocklevels"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TablePerm-inventory-stock_levels": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TablePerminventorystocklevels"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DataLakeBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeBucket0256EA8E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:19:20)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DataLakeBucketAccess/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeBucketAccess7307EA4A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Policy2 in aws-cdk-lib...",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:28:5)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DataLakeBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeBucketPolicy52869FB4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:19:20)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)"
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DataLakeBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeBucketAutoDeleteObjectsCustomResourceBA68F53A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}

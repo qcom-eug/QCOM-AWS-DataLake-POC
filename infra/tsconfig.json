@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["es2020"],
+    "declaration": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node"]
+  },
+  "exclude": ["node_modules", "cdk.out", "test/**/*.ts", "**/*.test.ts"]
+}

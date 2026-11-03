@@ -1,0 +1,802 @@
+{
+ "Resources": {
+  "DataLakeBucket0256EA8E": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": {
+     "Fn::Join": [
+      "",
+      [
+       "qcom-datalake-poc-dev-",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "-us-east-1"
+      ]
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeBucket/Resource"
+   }
+  },
+  "DataLakeBucketPolicy52869FB4": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "DataLakeBucket0256EA8E"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DataLakeBucket0256EA8E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DataLakeBucket0256EA8E",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DataLakeBucket0256EA8E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DataLakeBucket0256EA8E",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeBucket/Policy/Resource"
+   }
+  },
+  "DataLakeBucketAutoDeleteObjectsCustomResourceBA68F53A": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "DataLakeBucket0256EA8E"
+    }
+   },
+   "DependsOn": [
+    "DataLakeBucketPolicy52869FB4"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "DataLakeBucket0256EA8E"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "DataLakeBucketAccess7307EA4A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:PutObject*",
+        "s3:DeleteObject*",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DataLakeBucket0256EA8E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DataLakeBucket0256EA8E",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DataLakeBucketAccess7307EA4A",
+    "Roles": [
+     {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputRefDataLakeRole19B820556526AEF4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeBucketAccess/Resource"
+   }
+  },
+  "DataLakeSettings": {
+   "Type": "AWS::LakeFormation::DataLakeSettings",
+   "Properties": {
+    "Admins": [
+     {
+      "DataLakePrincipalIdentifier": {
+       "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeSettings"
+   }
+  },
+  "DataLakeLocation": {
+   "Type": "AWS::LakeFormation::Resource",
+   "Properties": {
+    "ResourceArn": {
+     "Fn::GetAtt": [
+      "DataLakeBucket0256EA8E",
+      "Arn"
+     ]
+    },
+    "RoleArn": {
+     "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+    },
+    "UseServiceLinkedRole": false
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeLocation"
+   }
+  },
+  "Dbsales": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseInput": {
+     "LocationUri": {
+      "Fn::Join": [
+       "",
+       [
+        "s3://",
+        {
+         "Ref": "DataLakeBucket0256EA8E"
+        },
+        "/sales"
+       ]
+      ]
+     },
+     "Name": "qcom_datalake_poc_dev_sales"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Db-sales"
+   }
+  },
+  "DbPermsales": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+     }
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": {
+       "Ref": "AWS::AccountId"
+      },
+      "Name": "qcom_datalake_poc_dev_sales"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbsales"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DbPerm-sales"
+   }
+  },
+  "Tablesalesorders": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseName": "qcom_datalake_poc_dev_sales",
+    "TableInput": {
+     "Name": "orders",
+     "Parameters": {
+      "classification": "parquet"
+     },
+     "StorageDescriptor": {
+      "Columns": [
+       {
+        "Name": "order_id",
+        "Type": "string"
+       },
+       {
+        "Name": "customer_id",
+        "Type": "string"
+       },
+       {
+        "Name": "order_ts",
+        "Type": "timestamp"
+       },
+       {
+        "Name": "amount",
+        "Type": "double"
+       }
+      ],
+      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+      "Location": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Ref": "DataLakeBucket0256EA8E"
+         },
+         "/sales/orders/"
+        ]
+       ]
+      },
+      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+      "SerdeInfo": {
+       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+      }
+     },
+     "TableType": "EXTERNAL_TABLE"
+    }
+   },
+   "DependsOn": [
+    "Dbsales"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-sales-orders"
+   }
+  },
+  "TablePermsalesorders": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+     }
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": {
+       "Ref": "AWS::AccountId"
+      },
+      "DatabaseName": "qcom_datalake_poc_dev_sales",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tablesalesorders"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TablePerm-sales-orders"
+   }
+  },
+  "Tablesalescustomers": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseName": "qcom_datalake_poc_dev_sales",
+    "TableInput": {
+     "Name": "customers",
+     "Parameters": {
+      "classification": "parquet"
+     },
+     "StorageDescriptor": {
+      "Columns": [
+       {
+        "Name": "customer_id",
+        "Type": "string"
+       },
+       {
+        "Name": "name",
+        "Type": "string"
+       },
+       {
+        "Name": "email",
+        "Type": "string"
+       }
+      ],
+      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+      "Location": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Ref": "DataLakeBucket0256EA8E"
+         },
+         "/sales/customers/"
+        ]
+       ]
+      },
+      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+      "SerdeInfo": {
+       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+      }
+     },
+     "TableType": "EXTERNAL_TABLE"
+    }
+   },
+   "DependsOn": [
+    "Dbsales"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-sales-customers"
+   }
+  },
+  "TablePermsalescustomers": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+     }
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": {
+       "Ref": "AWS::AccountId"
+      },
+      "DatabaseName": "qcom_datalake_poc_dev_sales",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tablesalescustomers"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TablePerm-sales-customers"
+   }
+  },
+  "Dbinventory": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseInput": {
+     "LocationUri": {
+      "Fn::Join": [
+       "",
+       [
+        "s3://",
+        {
+         "Ref": "DataLakeBucket0256EA8E"
+        },
+        "/inventory"
+       ]
+      ]
+     },
+     "Name": "qcom_datalake_poc_dev_inventory"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Db-inventory"
+   }
+  },
+  "DbPerminventory": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+     }
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": {
+       "Ref": "AWS::AccountId"
+      },
+      "Name": "qcom_datalake_poc_dev_inventory"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbinventory"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DbPerm-inventory"
+   }
+  },
+  "Tableinventoryproducts": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseName": "qcom_datalake_poc_dev_inventory",
+    "TableInput": {
+     "Name": "products",
+     "Parameters": {
+      "classification": "parquet"
+     },
+     "StorageDescriptor": {
+      "Columns": [
+       {
+        "Name": "product_id",
+        "Type": "string"
+       },
+       {
+        "Name": "name",
+        "Type": "string"
+       },
+       {
+        "Name": "price",
+        "Type": "double"
+       }
+      ],
+      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+      "Location": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Ref": "DataLakeBucket0256EA8E"
+         },
+         "/inventory/products/"
+        ]
+       ]
+      },
+      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+      "SerdeInfo": {
+       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+      }
+     },
+     "TableType": "EXTERNAL_TABLE"
+    }
+   },
+   "DependsOn": [
+    "Dbinventory"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-inventory-products"
+   }
+  },
+  "TablePerminventoryproducts": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+     }
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": {
+       "Ref": "AWS::AccountId"
+      },
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventoryproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TablePerm-inventory-products"
+   }
+  },
+  "Tableinventorystocklevels": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseName": "qcom_datalake_poc_dev_inventory",
+    "TableInput": {
+     "Name": "stock_levels",
+     "Parameters": {
+      "classification": "parquet"
+     },
+     "StorageDescriptor": {
+      "Columns": [
+       {
+        "Name": "product_id",
+        "Type": "string"
+       },
+       {
+        "Name": "warehouse",
+        "Type": "string"
+       },
+       {
+        "Name": "quantity",
+        "Type": "int"
+       }
+      ],
+      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+      "Location": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Ref": "DataLakeBucket0256EA8E"
+         },
+         "/inventory/stock_levels/"
+        ]
+       ]
+      },
+      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+      "SerdeInfo": {
+       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
+      }
+     },
+     "TableType": "EXTERNAL_TABLE"
+    }
+   },
+   "DependsOn": [
+    "Dbinventory"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-inventory-stock_levels"
+   }
+  },
+  "TablePerminventorystocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+     }
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": {
+       "Ref": "AWS::AccountId"
+      },
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventorystocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TablePerm-inventory-stock_levels"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5WMTWuDUBBFf0tcP1/FtBS6S8wy0BC7K6WMZpTR9wHOmLTI++9FH9R02dXc4d5zcp0/P+lsAzdO60ufGqr0VArUvYIbf0681dN+rHsUVTQupvcpsfRFLnlJ7rF5z1u9VKzjdDeKP6BBwdeqw1o4CR8qVidvqP5erfH/hzsCpYCgRbeogyKwelrVMQVloMfGDxaEvNNT0bgDCByhxxJFyLU8r8/IfhxqXEgcLDGTdxxUa0b8pSrgZfEGlcEQVDGyeHvPrvlPdRr8lS447GfBjhmlFGjJtUE5f0Hd8cM1f9R5prNNx0TpMDohi/oc7w+OY0EgrAEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

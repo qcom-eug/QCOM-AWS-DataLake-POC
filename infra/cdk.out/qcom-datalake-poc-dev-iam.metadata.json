@@ -1,0 +1,110 @@
+{
+  "/qcom-datalake-poc-dev-iam": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:15:18)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "qcom-datalake-poc-dev-iam.template.json"
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/DataLakeRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeRole19B82055"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:17:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:15:18)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/Exports/Output{\"Ref\":\"DataLakeRole19B82055\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefDataLakeRole19B820556526AEF4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/Exports/Output{\"Fn::GetAtt\":[\"DataLakeRole19B82055\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/DataLakeRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DataLakeRoleDefaultPolicy0015170E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...PropertyInjectable.<anonymous> in aws-cdk-lib...",
+        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:26:23)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:15:18)",
+        "...node internals..."
+      ]
+    }
+  ]
+}
