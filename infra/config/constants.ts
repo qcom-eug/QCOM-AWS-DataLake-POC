@@ -56,3 +56,21 @@ export const DATABASES: DatabaseConfig[] = [
     ],
   },
 ];
+
+export interface AccessTeam {
+  key: string;
+  // database name -> tables the team may query
+  tables: Record<string, string[]>;
+}
+
+// Each team gets its own LF-Tag keys, because a resource holds one value per tag key
+// and the teams share some tables (e.g. products).
+export const ACCESS_TEAMS: AccessTeam[] = [
+  { key: 'team-a', tables: { sales: ['customers'], inventory: ['products'] } },
+  { key: 'team-b', tables: { sales: ['orders'], inventory: ['products', 'stock_levels'] } },
+];
+
+export const LF_TAG_VALUE = 'allowed';
+// Tag on tables a team may query / on databases a team may see
+export const tableTagKey = (teamKey: string) => `access-${teamKey}`;
+export const databaseTagKey = (teamKey: string) => `db-${teamKey}`;

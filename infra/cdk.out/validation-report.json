@@ -1,5 +1,38 @@
 {
   "version": "55.0.0",
   "title": "Validation Report",
-  "pluginReports": []
+  "pluginReports": [
+    {
+      "pluginName": "CloudFormation Validate",
+      "pluginVersion": "1.12.1",
+      "conclusion": "success",
+      "violations": [
+        {
+          "ruleName": "W2531",
+          "description": "Runtime: Runtime 'nodejs20.x' was deprecated on '2026-04-30'. Creation will be disabled on '2027-02-01', and updates will be disabled on '2027-03-03'. Please consider updating to 'nodejs24.x'",
+          "severity": "warning",
+          "ruleMetadata": {
+            "category": "Deprecation"
+          },
+          "violatingConstructs": [
+            {
+              "constructPath": "qcom-datalake-poc-dev-query-api/TableQueryFn/Resource",
+              "constructFqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+              "libraryVersion": "2.275.0",
+              "cloudFormationResource": {
+                "templatePath": "qcom-datalake-poc-dev-query-api.template.json",
+                "logicalId": "TableQueryFn227E9F59",
+                "propertyPaths": [
+                  "Properties.Runtime"
+                ]
+              },
+              "stackTraces": [
+                "...new Function2 in aws-cdk-lib...\nnew QueryApiStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\query_api_stack.ts:47:16)\n<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:38:23)\n...node internals, ts-node, ts-node..."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

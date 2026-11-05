@@ -1,5 +1,99 @@
 {
  "Resources": {
+  "SmusManageAccessRoleB9672B2D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": "471932413417"
+        },
+        "ArnEquals": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":datazone:ca-central-1:471932413417:domain/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "datazone.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonDataZoneGlueManageAccessRolePolicy"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "qcom-datalake-poc-dev-smus-manage-access"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/SmusManageAccessRole/Resource"
+   }
+  },
+  "SmusProvisioningRole2A1955B1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": "471932413417"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "datazone.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AdministratorAccess"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "qcom-datalake-poc-dev-smus-provisioning"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/SmusProvisioningRole/Resource"
+   }
+  },
   "DataLakeRole19B82055": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -87,6 +181,28 @@
    },
    "Export": {
     "Name": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+   }
+  },
+  "ExportsOutputFnGetAttSmusProvisioningRole2A1955B1ArnB5D41A4C": {
+   "Value": {
+    "Fn::GetAtt": [
+     "SmusProvisioningRole2A1955B1",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttSmusProvisioningRole2A1955B1ArnB5D41A4C"
+   }
+  },
+  "ExportsOutputFnGetAttSmusManageAccessRoleB9672B2DArn4713343E": {
+   "Value": {
+    "Fn::GetAtt": [
+     "SmusManageAccessRoleB9672B2D",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttSmusManageAccessRoleB9672B2DArn4713343E"
    }
   }
  },

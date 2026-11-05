@@ -12,18 +12,7 @@
       }
      ]
     },
-    "BucketName": {
-     "Fn::Join": [
-      "",
-      [
-       "qcom-datalake-poc-dev-",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       "-us-east-1"
-      ]
-     ]
-    },
+    "BucketName": "qcom-datalake-poc-dev-471932413417-ca-central-1",
     "PublicAccessBlockConfiguration": {
      "BlockPublicAcls": true,
      "BlockPublicPolicy": true,
@@ -183,9 +172,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-471932413417-ca-central-1",
      "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
     },
     "Timeout": 900,
@@ -279,6 +266,19 @@
       "DataLakePrincipalIdentifier": {
        "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
       }
+     },
+     {
+      "DataLakePrincipalIdentifier": {
+       "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttSmusProvisioningRole2A1955B1ArnB5D41A4C"
+      }
+     },
+     {
+      "DataLakePrincipalIdentifier": {
+       "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttSmusManageAccessRoleB9672B2DArn4713343E"
+      }
+     },
+     {
+      "DataLakePrincipalIdentifier": "arn:aws:iam::471932413417:role/cdk-hnb659fds-cfn-exec-role-471932413417-ca-central-1"
      }
     ]
    },
@@ -307,12 +307,204 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeLocation"
    }
   },
+  "Tagaccessteama": {
+   "Type": "AWS::LakeFormation::Tag",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "TagKey": "access-team-a",
+    "TagValues": [
+     "allowed"
+    ]
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Tag-access-team-a"
+   }
+  },
+  "Tagdbteama": {
+   "Type": "AWS::LakeFormation::Tag",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "TagKey": "db-team-a",
+    "TagValues": [
+     "allowed"
+    ]
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Tag-db-team-a"
+   }
+  },
+  "Tagaccessteamb": {
+   "Type": "AWS::LakeFormation::Tag",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "TagKey": "access-team-b",
+    "TagValues": [
+     "allowed"
+    ]
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Tag-access-team-b"
+   }
+  },
+  "Tagdbteamb": {
+   "Type": "AWS::LakeFormation::Tag",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "TagKey": "db-team-b",
+    "TagValues": [
+     "allowed"
+    ]
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Tag-db-team-b"
+   }
+  },
+  "GroupGrant5c2dd518e0d170661ef675b0689f1dd5teamaDATABASE": {
+   "Type": "AWS::LakeFormation::PrincipalPermissions",
+   "Properties": {
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "PermissionsWithGrantOption": [],
+    "Principal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Resource": {
+     "LFTagPolicy": {
+      "CatalogId": "471932413417",
+      "Expression": [
+       {
+        "TagKey": "db-team-a",
+        "TagValues": [
+         "allowed"
+        ]
+       }
+      ],
+      "ResourceType": "DATABASE"
+     }
+    }
+   },
+   "DependsOn": [
+    "Tagdbteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-DATABASE"
+   }
+  },
+  "GroupGrant5c2dd518e0d170661ef675b0689f1dd5teamaTABLE": {
+   "Type": "AWS::LakeFormation::PrincipalPermissions",
+   "Properties": {
+    "Permissions": [
+     "SELECT",
+     "DESCRIBE"
+    ],
+    "PermissionsWithGrantOption": [],
+    "Principal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Resource": {
+     "LFTagPolicy": {
+      "CatalogId": "471932413417",
+      "Expression": [
+       {
+        "TagKey": "access-team-a",
+        "TagValues": [
+         "allowed"
+        ]
+       }
+      ],
+      "ResourceType": "TABLE"
+     }
+    }
+   },
+   "DependsOn": [
+    "Tagaccessteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-TABLE"
+   }
+  },
+  "GroupGrant8cbd15e870b170774112371c8c8d9404teambDATABASE": {
+   "Type": "AWS::LakeFormation::PrincipalPermissions",
+   "Properties": {
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "PermissionsWithGrantOption": [],
+    "Principal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Resource": {
+     "LFTagPolicy": {
+      "CatalogId": "471932413417",
+      "Expression": [
+       {
+        "TagKey": "db-team-b",
+        "TagValues": [
+         "allowed"
+        ]
+       }
+      ],
+      "ResourceType": "DATABASE"
+     }
+    }
+   },
+   "DependsOn": [
+    "Tagdbteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-DATABASE"
+   }
+  },
+  "GroupGrant8cbd15e870b170774112371c8c8d9404teambTABLE": {
+   "Type": "AWS::LakeFormation::PrincipalPermissions",
+   "Properties": {
+    "Permissions": [
+     "SELECT",
+     "DESCRIBE"
+    ],
+    "PermissionsWithGrantOption": [],
+    "Principal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Resource": {
+     "LFTagPolicy": {
+      "CatalogId": "471932413417",
+      "Expression": [
+       {
+        "TagKey": "access-team-b",
+        "TagValues": [
+         "allowed"
+        ]
+       }
+      ],
+      "ResourceType": "TABLE"
+     }
+    }
+   },
+   "DependsOn": [
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-TABLE"
+   }
+  },
   "Dbsales": {
    "Type": "AWS::Glue::Database",
    "Properties": {
-    "CatalogId": {
-     "Ref": "AWS::AccountId"
-    },
+    "CatalogId": "471932413417",
     "DatabaseInput": {
      "LocationUri": {
       "Fn::Join": [
@@ -329,8 +521,68 @@
      "Name": "qcom_datalake_poc_dev_sales"
     }
    },
+   "DependsOn": [
+    "DataLakeLocation",
+    "DataLakeSettings"
+   ],
    "Metadata": {
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Db-sales"
+   }
+  },
+  "DbTagAssocsalesteama": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "db-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_sales"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbsales",
+    "Tagdbteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DbTagAssoc-sales-team-a"
+   }
+  },
+  "DbTagAssocsalesteamb": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "db-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_sales"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbsales",
+    "Tagdbteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DbTagAssoc-sales-team-b"
    }
   },
   "DbPermsales": {
@@ -346,9 +598,7 @@
     ],
     "Resource": {
      "DatabaseResource": {
-      "CatalogId": {
-       "Ref": "AWS::AccountId"
-      },
+      "CatalogId": "471932413417",
       "Name": "qcom_datalake_poc_dev_sales"
      }
     }
@@ -364,9 +614,7 @@
   "Tablesalesorders": {
    "Type": "AWS::Glue::Table",
    "Properties": {
-    "CatalogId": {
-     "Ref": "AWS::AccountId"
-    },
+    "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_sales",
     "TableInput": {
      "Name": "orders",
@@ -420,6 +668,35 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-sales-orders"
    }
   },
+  "TableTagAssocsalesordersteamb": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_sales",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tablesalesorders",
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TableTagAssoc-sales-orders-team-b"
+   }
+  },
   "TablePermsalesorders": {
    "Type": "AWS::LakeFormation::Permissions",
    "Properties": {
@@ -433,9 +710,7 @@
     ],
     "Resource": {
      "TableResource": {
-      "CatalogId": {
-       "Ref": "AWS::AccountId"
-      },
+      "CatalogId": "471932413417",
       "DatabaseName": "qcom_datalake_poc_dev_sales",
       "Name": "orders"
      }
@@ -452,9 +727,7 @@
   "Tablesalescustomers": {
    "Type": "AWS::Glue::Table",
    "Properties": {
-    "CatalogId": {
-     "Ref": "AWS::AccountId"
-    },
+    "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_sales",
     "TableInput": {
      "Name": "customers",
@@ -504,6 +777,35 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-sales-customers"
    }
   },
+  "TableTagAssocsalescustomersteama": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_sales",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tablesalescustomers",
+    "Tagaccessteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TableTagAssoc-sales-customers-team-a"
+   }
+  },
   "TablePermsalescustomers": {
    "Type": "AWS::LakeFormation::Permissions",
    "Properties": {
@@ -517,9 +819,7 @@
     ],
     "Resource": {
      "TableResource": {
-      "CatalogId": {
-       "Ref": "AWS::AccountId"
-      },
+      "CatalogId": "471932413417",
       "DatabaseName": "qcom_datalake_poc_dev_sales",
       "Name": "customers"
      }
@@ -536,9 +836,7 @@
   "Dbinventory": {
    "Type": "AWS::Glue::Database",
    "Properties": {
-    "CatalogId": {
-     "Ref": "AWS::AccountId"
-    },
+    "CatalogId": "471932413417",
     "DatabaseInput": {
      "LocationUri": {
       "Fn::Join": [
@@ -555,8 +853,68 @@
      "Name": "qcom_datalake_poc_dev_inventory"
     }
    },
+   "DependsOn": [
+    "DataLakeLocation",
+    "DataLakeSettings"
+   ],
    "Metadata": {
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Db-inventory"
+   }
+  },
+  "DbTagAssocinventoryteama": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "db-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_inventory"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbinventory",
+    "Tagdbteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DbTagAssoc-inventory-team-a"
+   }
+  },
+  "DbTagAssocinventoryteamb": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "db-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_inventory"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbinventory",
+    "Tagdbteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DbTagAssoc-inventory-team-b"
    }
   },
   "DbPerminventory": {
@@ -572,9 +930,7 @@
     ],
     "Resource": {
      "DatabaseResource": {
-      "CatalogId": {
-       "Ref": "AWS::AccountId"
-      },
+      "CatalogId": "471932413417",
       "Name": "qcom_datalake_poc_dev_inventory"
      }
     }
@@ -590,9 +946,7 @@
   "Tableinventoryproducts": {
    "Type": "AWS::Glue::Table",
    "Properties": {
-    "CatalogId": {
-     "Ref": "AWS::AccountId"
-    },
+    "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_inventory",
     "TableInput": {
      "Name": "products",
@@ -642,6 +996,64 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-inventory-products"
    }
   },
+  "TableTagAssocinventoryproductsteama": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventoryproducts",
+    "Tagaccessteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TableTagAssoc-inventory-products-team-a"
+   }
+  },
+  "TableTagAssocinventoryproductsteamb": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventoryproducts",
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TableTagAssoc-inventory-products-team-b"
+   }
+  },
   "TablePerminventoryproducts": {
    "Type": "AWS::LakeFormation::Permissions",
    "Properties": {
@@ -655,9 +1067,7 @@
     ],
     "Resource": {
      "TableResource": {
-      "CatalogId": {
-       "Ref": "AWS::AccountId"
-      },
+      "CatalogId": "471932413417",
       "DatabaseName": "qcom_datalake_poc_dev_inventory",
       "Name": "products"
      }
@@ -674,9 +1084,7 @@
   "Tableinventorystocklevels": {
    "Type": "AWS::Glue::Table",
    "Properties": {
-    "CatalogId": {
-     "Ref": "AWS::AccountId"
-    },
+    "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_inventory",
     "TableInput": {
      "Name": "stock_levels",
@@ -726,6 +1134,35 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Table-inventory-stock_levels"
    }
   },
+  "TableTagAssocinventorystocklevelsteamb": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventorystocklevels",
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TableTagAssoc-inventory-stock_levels-team-b"
+   }
+  },
   "TablePerminventorystocklevels": {
    "Type": "AWS::LakeFormation::Permissions",
    "Properties": {
@@ -739,9 +1176,7 @@
     ],
     "Resource": {
      "TableResource": {
-      "CatalogId": {
-       "Ref": "AWS::AccountId"
-      },
+      "CatalogId": "471932413417",
       "DatabaseName": "qcom_datalake_poc_dev_inventory",
       "Name": "stock_levels"
      }
@@ -758,7 +1193,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5WMTWuDUBBFf0tcP1/FtBS6S8wy0BC7K6WMZpTR9wHOmLTI++9FH9R02dXc4d5zcp0/P+lsAzdO60ufGqr0VArUvYIbf0681dN+rHsUVTQupvcpsfRFLnlJ7rF5z1u9VKzjdDeKP6BBwdeqw1o4CR8qVidvqP5erfH/hzsCpYCgRbeogyKwelrVMQVloMfGDxaEvNNT0bgDCByhxxJFyLU8r8/IfhxqXEgcLDGTdxxUa0b8pSrgZfEGlcEQVDGyeHvPrvlPdRr8lS447GfBjhmlFGjJtUE5f0Hd8cM1f9R5prNNx0TpMDohi/oc7w+OY0EgrAEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5WNy07DQAxFv6VZT4cqBSGx62OJRNWwQwg5UzdyMw80dlpQNP+OkqlIWbLyte7xcanLxwe9mMGF5+bQzi3Vuq8ETKvgwh89L3W/7kyLojZHn9NbXzj6Il88FbdnA89LPVasM7rqJGzRouBLfUIjXKR3latdsGS+J2ve/+HOB5WAoEM/qpMicLqf1DklZaHFY4gOhILX/ebotyDwDC1WKEK+4YHeI4cuGhzyKzSjIJI39Al2h9ERMwXP13rFHAyNxpGcgKQa2+Hvmxr4qqwtpqQ2HUtwt8+m/KfaxXCmA8b1IFgxo1QCDfkmKR8OqE98dy7vdbnQi9mJieax80IO9T7PH0zjqgndAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/CDKMetadata/Default"

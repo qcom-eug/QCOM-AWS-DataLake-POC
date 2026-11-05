@@ -3,7 +3,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node, ts-node..."
       ]
     },
@@ -46,8 +46,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:38:22)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:42:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -60,8 +60,120 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:42:22)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:53:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Tag-access-team-a": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tagaccessteama"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:64:21)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Tag-db-team-a": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tagdbteama"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:64:21)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Tag-access-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tagaccessteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:64:21)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/Tag-db-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Tagdbteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:64:21)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/GroupGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-DATABASE": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GroupGrant5c2dd518e0d170661ef675b0689f1dd5teamaDATABASE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:80:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/GroupGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-TABLE": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GroupGrant5c2dd518e0d170661ef675b0689f1dd5teamaTABLE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:80:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/GroupGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-DATABASE": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GroupGrant8cbd15e870b170774112371c8c8d9404teambDATABASE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:80:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/GroupGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-TABLE": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GroupGrant8cbd15e870b170774112371c8c8d9404teambTABLE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:80:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -74,8 +186,36 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:51:24)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:103:24)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DbTagAssoc-sales-team-a": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DbTagAssocsalesteama"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:112:23)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DbTagAssoc-sales-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DbTagAssocsalesteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:112:23)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -88,8 +228,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:57:22)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:120:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -102,8 +242,22 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:128:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TableTagAssoc-sales-orders-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TableTagAssocsalesordersteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:150:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -116,8 +270,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:163:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -130,8 +284,22 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:128:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TableTagAssoc-sales-customers-team-a": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TableTagAssocsalescustomersteama"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:150:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -144,8 +312,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:163:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -158,8 +326,36 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:51:24)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:103:24)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DbTagAssoc-inventory-team-a": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DbTagAssocinventoryteama"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:112:23)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/DbTagAssoc-inventory-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DbTagAssocinventoryteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:112:23)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -172,8 +368,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:57:22)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:120:22)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -186,8 +382,36 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:128:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TableTagAssoc-inventory-products-team-a": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TableTagAssocinventoryproductsteama"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:150:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TableTagAssoc-inventory-products-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TableTagAssocinventoryproductsteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:150:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -200,8 +424,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:163:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -214,8 +438,22 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:65:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:128:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-lakeformation/TableTagAssoc-inventory-stock_levels-team-b": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TableTagAssocinventorystocklevelsteamb"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:150:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -228,8 +466,8 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:85:27)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:163:27)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -269,8 +507,8 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Bucket2 in aws-cdk-lib...",
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:19:20)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:23:20)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     },
@@ -316,8 +554,8 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Policy2 in aws-cdk-lib...",
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:28:5)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)",
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:32:5)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -344,8 +582,8 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Bucket2 in aws-cdk-lib...",
-        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:19:20)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:16:17)"
+        "new LakeFormationStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\lakeformation_stack.ts:23:20)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:24:17)"
       ]
     },
     {

@@ -3,7 +3,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:15:18)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:23:18)",
         "...node internals, ts-node, ts-node, ts-node..."
       ]
     },
@@ -38,6 +38,36 @@
       ]
     }
   ],
+  "/qcom-datalake-poc-dev-iam/SmusManageAccessRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SmusManageAccessRoleB9672B2D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:19:33)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:23:18)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/SmusProvisioningRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SmusProvisioningRole2A1955B1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:31:33)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:23:18)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
   "/qcom-datalake-poc-dev-iam/DataLakeRole/Resource": [
     {
       "type": "aws:cdk:logicalId",
@@ -47,8 +77,8 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Role2 in aws-cdk-lib...",
-        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:17:25)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:15:18)",
+        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:40:25)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:23:18)",
         "...node internals, ts-node, ts-node..."
       ]
     }
@@ -92,6 +122,32 @@
       ]
     }
   ],
+  "/qcom-datalake-poc-dev-iam/Exports/Output{\"Fn::GetAtt\":[\"SmusProvisioningRole2A1955B1\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttSmusProvisioningRole2A1955B1ArnB5D41A4C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/qcom-datalake-poc-dev-iam/Exports/Output{\"Fn::GetAtt\":[\"SmusManageAccessRoleB9672B2D\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttSmusManageAccessRoleB9672B2DArn4713343E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
   "/qcom-datalake-poc-dev-iam/DataLakeRole/DefaultPolicy/Resource": [
     {
       "type": "aws:cdk:logicalId",
@@ -101,8 +157,8 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...PropertyInjectable.<anonymous> in aws-cdk-lib...",
-        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:26:23)",
-        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:15:18)",
+        "new IamStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\iam_stack.ts:49:23)",
+        "<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:23:18)",
         "...node internals..."
       ]
     }
