@@ -136,6 +136,17 @@ export class SmusStack extends cdk.Stack {
           deploymentOrder: 0,
           awsAccount: { awsAccountId: this.account },
           awsRegion: { regionName: this.region },
+          // With TIP, Athena and Glue authorize with the user's Identity Center identity, so Lake Formation
+          // grants to the Identity Center groups apply. Only applies to projects created after this change.
+          ...(idcInstanceArn
+            ? {
+                configurationParameters: {
+                  parameterOverrides: [
+                    { name: 'enableTrustedIdentityPropagationPermissions', value: 'true', isEditable: false },
+                  ],
+                },
+              }
+            : {}),
         },
       ],
     });

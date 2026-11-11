@@ -1723,6 +1723,141 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioHybridIamRole/DefaultPolicy/Resource"
    }
   },
+  "ScenarioProjectGlueUpdate": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Effect": "Allow",
+       "Action": [
+        "glue:UpdateTable"
+       ],
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:catalog"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:database/qcom_datalake_poc_dev_scenario1_lf_tag"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:table/qcom_datalake_poc_dev_scenario1_lf_tag/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:database/qcom_datalake_poc_dev_scenario2_lf_named"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:table/qcom_datalake_poc_dev_scenario2_lf_named/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:database/qcom_datalake_poc_dev_scenario3_hybrid"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":glue:ca-central-1:471932413417:table/qcom_datalake_poc_dev_scenario3_hybrid/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "PolicyName": "qcom-datalake-poc-dev-scenario-project-glue-update",
+    "Roles": [
+     "datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a",
+     "datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe",
+     "datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioProjectGlueUpdate"
+   }
+  },
+  "ProjectGlueIdentityConfiguration": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Effect": "Allow",
+       "Action": [
+        "glue:GetGlueIdentityCenterConfiguration"
+       ],
+       "Resource": "*"
+      }
+     ]
+    },
+    "PolicyName": "qcom-datalake-poc-dev-project-glue-identity-configuration",
+    "Roles": [
+     "datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ProjectGlueIdentityConfiguration"
+   }
+  },
   "ScenarioBucketlftagFBA0A4D8": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
@@ -1944,6 +2079,7 @@
    "Properties": {
     "CatalogId": "471932413417",
     "DatabaseInput": {
+     "CreateTableDefaultPermissions": [],
      "LocationUri": {
       "Fn::Join": [
        "",
@@ -2252,6 +2388,200 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1DbTagAssociation"
    }
   },
+  "Scenario1DbTeamTagteama": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "db-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario1_lf_tag"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblftag",
+    "Tagdbteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1DbTeamTag-team-a"
+   }
+  },
+  "Scenario1TableTeamTagteamacustomers": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelftagcustomers",
+    "Tagaccessteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TableTeamTag-team-a-customers"
+   }
+  },
+  "Scenario1TableTeamTagteamaproducts": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-a",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelftagproducts",
+    "Tagaccessteama"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TableTeamTag-team-a-products"
+   }
+  },
+  "Scenario1DbTeamTagteamb": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "db-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario1_lf_tag"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblftag",
+    "Tagdbteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1DbTeamTag-team-b"
+   }
+  },
+  "Scenario1TableTeamTagteamborders": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelftagorders",
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TableTeamTag-team-b-orders"
+   }
+  },
+  "Scenario1TableTeamTagteambproducts": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelftagproducts",
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TableTeamTag-team-b-products"
+   }
+  },
+  "Scenario1TableTeamTagteambstocklevels": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-team-b",
+      "TagValues": [
+       "allowed"
+      ]
+     }
+    ],
+    "Resource": {
+     "Table": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelftagstocklevels",
+    "Tagaccessteamb"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TableTeamTag-team-b-stock_levels"
+   }
+  },
   "Scenario1TagGrantDATABASE": {
    "Type": "AWS::LakeFormation::PrincipalPermissions",
    "Properties": {
@@ -2551,6 +2881,7 @@
    "Properties": {
     "CatalogId": "471932413417",
     "DatabaseInput": {
+     "CreateTableDefaultPermissions": [],
      "LocationUri": {
       "Fn::Join": [
        "",
@@ -2838,6 +3169,197 @@
    ],
    "Metadata": {
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2DbGrant"
+   }
+  },
+  "Scenario2GroupDb5c2dd518e0d170661ef675b0689f1dd5": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario2_lf_named"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupDb-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+   }
+  },
+  "Scenario2GroupTable5c2dd518e0d170661ef675b0689f1dd5customers": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario2GroupDb5c2dd518e0d170661ef675b0689f1dd5",
+    "ScenarioTablelfnamedcustomers"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupTable-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-customers"
+   }
+  },
+  "Scenario2GroupTable5c2dd518e0d170661ef675b0689f1dd5products": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario2GroupDb5c2dd518e0d170661ef675b0689f1dd5",
+    "ScenarioTablelfnamedproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupTable-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-products"
+   }
+  },
+  "Scenario2GroupDb8cbd15e870b170774112371c8c8d9404": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario2_lf_named"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupDb-8cbd15e8-70b1-7077-4112-371c8c8d9404"
+   }
+  },
+  "Scenario2GroupTable8cbd15e870b170774112371c8c8d9404orders": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario2GroupDb8cbd15e870b170774112371c8c8d9404",
+    "ScenarioTablelfnamedorders"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupTable-8cbd15e8-70b1-7077-4112-371c8c8d9404-orders"
+   }
+  },
+  "Scenario2GroupTable8cbd15e870b170774112371c8c8d9404products": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario2GroupDb8cbd15e870b170774112371c8c8d9404",
+    "ScenarioTablelfnamedproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupTable-8cbd15e8-70b1-7077-4112-371c8c8d9404-products"
+   }
+  },
+  "Scenario2GroupTable8cbd15e870b170774112371c8c8d9404stocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario2GroupDb8cbd15e870b170774112371c8c8d9404",
+    "ScenarioTablelfnamedstocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2GroupTable-8cbd15e8-70b1-7077-4112-371c8c8d9404-stock_levels"
    }
   },
   "Scenario2TableGrantorders": {
@@ -3505,6 +4027,931 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3IamAllowedDbGrant"
    }
   },
+  "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-qcom_datalake_poc_dev_scenario3_hybrid\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3IamAllowedDbGrant"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectDbOptIn-datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a/Resource/Default"
+   }
+  },
+  "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-471932413417-ca-central-1",
+     "S3Key": "9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125.zip"
+    },
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ScenarioOptInExecutionRoleF76EAE33",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "ScenarioOptInExecutionRoleDefaultPolicyAB443835",
+    "ScenarioOptInExecutionRoleF76EAE33"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/AWS679f53fac002430cb0da5b7982bd2287/Resource",
+    "aws:asset:path": "asset.9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4aorders7B94AEF8": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-qcom_datalake_poc_dev_scenario3_hybrid-orders\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78",
+    "ScenarioTablehybridorders"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-orders/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4acustomers540ABE56": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-qcom_datalake_poc_dev_scenario3_hybrid-customers\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78",
+    "ScenarioTablehybridcustomers"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-customers/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4aproducts09B53C0F": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-qcom_datalake_poc_dev_scenario3_hybrid-products\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78",
+    "ScenarioTablehybridproducts"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-products/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4astocklevels7D13CA2B": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-qcom_datalake_poc_dev_scenario3_hybrid-stock_levels\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78",
+    "ScenarioTablehybridstocklevels"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a-stock_levels/Resource/Default"
+   }
+  },
+  "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-qcom_datalake_poc_dev_scenario3_hybrid\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3IamAllowedDbGrant"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectDbOptIn-datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufeorders6995F6EB": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-qcom_datalake_poc_dev_scenario3_hybrid-orders\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394",
+    "ScenarioTablehybridorders"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-orders/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufecustomers5389D43B": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-qcom_datalake_poc_dev_scenario3_hybrid-customers\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394",
+    "ScenarioTablehybridcustomers"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-customers/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufeproducts2800569E": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-qcom_datalake_poc_dev_scenario3_hybrid-products\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394",
+    "ScenarioTablehybridproducts"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-products/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufestocklevelsDFB40FCD": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-qcom_datalake_poc_dev_scenario3_hybrid-stock_levels\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394",
+    "ScenarioTablehybridstocklevels"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe-stock_levels/Resource/Default"
+   }
+  },
+  "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-qcom_datalake_poc_dev_scenario3_hybrid\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3IamAllowedDbGrant"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectDbOptIn-datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqorders1830D872": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-qcom_datalake_poc_dev_scenario3_hybrid-orders\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278",
+    "ScenarioTablehybridorders"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-orders/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqcustomers1F7F806F": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-qcom_datalake_poc_dev_scenario3_hybrid-customers\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278",
+    "ScenarioTablehybridcustomers"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-customers/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqproducts189E9B4A": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-qcom_datalake_poc_dev_scenario3_hybrid-products\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278",
+    "ScenarioTablehybridproducts"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-products/Resource/Default"
+   }
+  },
+  "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqstocklevels01006688": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}},\"physicalResourceId\":{\"id\":\"datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-qcom_datalake_poc_dev_scenario3_hybrid-stock_levels\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::471932413417:role/datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278",
+    "ScenarioTablehybridstocklevels"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3ProjectTableOptIn-datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq-stock_levels/Resource/Default"
+   }
+  },
+  "Scenario3GroupDb5c2dd518e0d170661ef675b0689f1dd5": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario3_hybrid"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394",
+    "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78",
+    "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufecustomers5389D43B",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufeorders6995F6EB",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufeproducts2800569E",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufestocklevelsDFB40FCD",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4acustomers540ABE56",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4aorders7B94AEF8",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4aproducts09B53C0F",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4astocklevels7D13CA2B",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqcustomers1F7F806F",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqorders1830D872",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqproducts189E9B4A",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqstocklevels01006688",
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupDb-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+   }
+  },
+  "Scenario3GroupTable5c2dd518e0d170661ef675b0689f1dd5customers": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3GroupDb5c2dd518e0d170661ef675b0689f1dd5",
+    "ScenarioTablehybridcustomers"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupTable-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-customers"
+   }
+  },
+  "Scenario3GroupTable5c2dd518e0d170661ef675b0689f1dd5products": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/5c2dd518-e0d1-7066-1ef6-75b0689f1dd5"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3GroupDb5c2dd518e0d170661ef675b0689f1dd5",
+    "ScenarioTablehybridproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupTable-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-products"
+   }
+  },
+  "Scenario3GroupDb8cbd15e870b170774112371c8c8d9404": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario3_hybrid"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3ProjectDbOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufe94125394",
+    "Scenario3ProjectDbOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4a37B00E78",
+    "Scenario3ProjectDbOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqDDB2B278",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufecustomers5389D43B",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufeorders6995F6EB",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufeproducts2800569E",
+    "Scenario3ProjectTableOptIndatazoneusrrole4zaqa0onube9sacul8azfglomufestocklevelsDFB40FCD",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4acustomers540ABE56",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4aorders7B94AEF8",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4aproducts09B53C0F",
+    "Scenario3ProjectTableOptIndatazoneusrrolebcslor26o6dczu53c3baeowa7j4astocklevels7D13CA2B",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqcustomers1F7F806F",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqorders1830D872",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqproducts189E9B4A",
+    "Scenario3ProjectTableOptIndatazoneusrrolecgde7e1tniwqh647xt1f7hrhyzgqstocklevels01006688",
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupDb-8cbd15e8-70b1-7077-4112-371c8c8d9404"
+   }
+  },
+  "Scenario3GroupTable8cbd15e870b170774112371c8c8d9404orders": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3GroupDb8cbd15e870b170774112371c8c8d9404",
+    "ScenarioTablehybridorders"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupTable-8cbd15e8-70b1-7077-4112-371c8c8d9404-orders"
+   }
+  },
+  "Scenario3GroupTable8cbd15e870b170774112371c8c8d9404products": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3GroupDb8cbd15e870b170774112371c8c8d9404",
+    "ScenarioTablehybridproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupTable-8cbd15e8-70b1-7077-4112-371c8c8d9404-products"
+   }
+  },
+  "Scenario3GroupTable8cbd15e870b170774112371c8c8d9404stocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "arn:aws:identitystore:::group/8cbd15e8-70b1-7077-4112-371c8c8d9404"
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario3GroupDb8cbd15e870b170774112371c8c8d9404",
+    "ScenarioTablehybridstocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3GroupTable-8cbd15e8-70b1-7077-4112-371c8c8d9404-stock_levels"
+   }
+  },
   "Scenario3LfTableGrantorders": {
    "Type": "AWS::LakeFormation::Permissions",
    "Properties": {
@@ -3615,35 +5062,6 @@
    "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3TableOptIn-orders/Resource/Default"
-   }
-  },
-  "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-471932413417-ca-central-1",
-     "S3Key": "9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125.zip"
-    },
-    "Handler": "index.handler",
-    "MemorySize": 512,
-    "Role": {
-     "Fn::GetAtt": [
-      "ScenarioOptInExecutionRoleF76EAE33",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs24.x",
-    "Timeout": 120
-   },
-   "DependsOn": [
-    "ScenarioOptInExecutionRoleDefaultPolicyAB443835",
-    "ScenarioOptInExecutionRoleF76EAE33"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/AWS679f53fac002430cb0da5b7982bd2287/Resource",
-    "aws:asset:path": "asset.9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125",
-    "aws:asset:is-bundled": false,
-    "aws:asset:property": "Code"
    }
   },
   "Scenario3LfTableGrantcustomers": {

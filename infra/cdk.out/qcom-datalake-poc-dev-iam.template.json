@@ -187,6 +187,13 @@
        "Principal": {
         "Service": "glue.amazonaws.com"
        }
+      },
+      {
+       "Action": "sts:SetContext",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lakeformation.amazonaws.com"
+       }
       }
      ],
      "Version": "2012-10-17"

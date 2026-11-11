@@ -5,6 +5,15 @@
     "exclude": ["README.md", "cdk*.json", "**/*.d.ts", "**/*.js", "tsconfig.json", "package*.json", "node_modules", "test"]
   },
   "context": {
-    "stage": "dev"
+    "stage": "dev",
+    "tableMode": "iceberg",
+    "hybridProjectRoleNames": [
+      "datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a",
+      "datazone_usr_role_4zaqa0onube9sa_cul8azfglomufe",
+      "datazone_usr_role_cgde7e1tniwqh6_47xt1f7hrhyzgq"
+    ],
+    "glueIdentityProjectRoleNames": [
+      "datazone_usr_role_bcslor26o6dczu_53c3baeowa7j4a"
+    ]
   }
 }

@@ -31,16 +31,16 @@
         }
       }
     },
-    "46a981ff25c70542dddb459d7bbe8edcf2209f627681e9131f9edb554b66fe5a": {
+    "c7ebe7959ede5c248f4a6dbcc87b67b1b7d788ed270ccfb613944dcac268607b": {
       "displayName": "qcom-datalake-poc-dev-lakeformation Template",
       "source": {
         "path": "qcom-datalake-poc-dev-lakeformation.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "471932413417-ca-central-1-5a3b7e14": {
+        "471932413417-ca-central-1-541bd5c6": {
           "bucketName": "cdk-hnb659fds-assets-471932413417-ca-central-1",
-          "objectKey": "46a981ff25c70542dddb459d7bbe8edcf2209f627681e9131f9edb554b66fe5a.json",
+          "objectKey": "c7ebe7959ede5c248f4a6dbcc87b67b1b7d788ed270ccfb613944dcac268607b.json",
           "region": "ca-central-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-file-publishing-role-471932413417-ca-central-1"
         }

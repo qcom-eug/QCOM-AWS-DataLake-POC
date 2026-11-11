@@ -1,16 +1,16 @@
 {
   "version": "55.0.0",
   "files": {
-    "0391cb5784eb6951af924b785b36b9c9564b21e2a4229387791195aa5478c728": {
+    "c3016346a3d7b7c1628f34d12b95bbeb03b3d88e0393e522616f76cdffaf8748": {
       "displayName": "qcom-datalake-poc-dev-iam Template",
       "source": {
         "path": "qcom-datalake-poc-dev-iam.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "471932413417-ca-central-1-75bf8d1d": {
+        "471932413417-ca-central-1-38e26bc2": {
           "bucketName": "cdk-hnb659fds-assets-471932413417-ca-central-1",
-          "objectKey": "0391cb5784eb6951af924b785b36b9c9564b21e2a4229387791195aa5478c728.json",
+          "objectKey": "c3016346a3d7b7c1628f34d12b95bbeb03b3d88e0393e522616f76cdffaf8748.json",
           "region": "ca-central-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-file-publishing-role-471932413417-ca-central-1"
         }

@@ -19,10 +19,38 @@ has its own S3 bucket and a database containing the same four table definitions:
 The hybrid example opts the LF role into both the database and each table with Lake Formation
 custom resources. The IAM path uses `IAM_ALLOWED_PRINCIPALS` plus the IAM role's Glue and S3
 permissions. Scenario roles trust the account root; callers still need `sts:AssumeRole`.
+The Lake Formation registration role trusts Lake Formation to use `sts:SetContext` for
+Identity Center trusted identity propagation.
+
+Identity Center groups receive the same per-team table mapping in all three scenarios:
+team-a receives customers and products; team-b receives orders, products and stock_levels.
+Scenario 1 uses LF-Tags, and scenario 2 uses named Lake Formation grants. In scenario 3,
+the SMUS project execution roles listed in `infra/cdk.json` are opted in to Lake Formation
+for the database and its tables, while the groups receive named table grants. Adding or
+recreating a project requires updating `hybridProjectRoleNames` and deploying this stack.
+The project roles also need scoped `glue:UpdateTable` IAM permission for Iceberg writes;
+the stack grants this without granting S3 data access.
+
+For Glue interactive-session testing, `glueIdentityProjectRoleNames` lists the project
+roles permitted to read the Glue Identity Center configuration. This read-only IAM action
+requires resource `*` and does not grant table or S3 data access. It does not itself enable
+or verify trusted identity propagation.
+
+The full-Lake-Formation scenario databases set their table-creation defaults to prevent
+new tables inheriting `IAM_ALLOWED_PRINCIPALS`. Existing database and table grants must
+also have `IAM_ALLOWED_PRINCIPALS` revoked separately; changing the database default does
+not revoke existing grants. The account-level database creation default still applies if
+a database is recreated, so check and remove that grant again on recreation. Keep
+`IAM_ALLOWED_PRINCIPALS` on the hybrid scenario.
 
 ## Updateable (Iceberg) tables
 
-Tables are Parquet by default (`tableMode=parquet`), which cannot run Athena `UPDATE`. Tested in
+The CDK app defaults to `tableMode=iceberg` in `infra/cdk.json`, matching the deployed tables.
+Keep this setting when deploying any stack, including dependencies. Switching table formats can
+cause CloudFormation to attempt to replace existing tables. Never use `tableMode=none` unless
+you intend to remove the tables and have verified and backed up any data.
+
+Parquet tables cannot run Athena `UPDATE`. Tested in
 this account: an Iceberg table in a Lake Formation-registered bucket accepted Athena `INSERT`,
 `UPDATE` and `DELETE` from a role that had only Lake Formation grants (no S3 data access), and
 failed once `INSERT`/`DELETE`/`ALTER` were revoked. CloudFormation cannot convert an existing
@@ -43,6 +71,26 @@ the existing Lambda or SMUS projects. Athena workgroup/results access and SMUS c
 configuration must be added separately before using those interfaces to run DML. The existing
 query Lambda remains read-only. The buckets are POC resources with `DESTROY` removal policy and
 auto-delete enabled, so back up data before deleting the stack.
+
+## Private DataZone, Athena, Glue, STS, Lake Formation and S3 endpoints
+
+The optional `datazone-endpoint` stack creates DataZone, Athena, Glue API, Glue Interactive
+Sessions, STS and Lake Formation interface endpoints and an S3 gateway endpoint for VPC-only project compute.
+Supply the project security groups and route table:
+
+```
+npx.cmd cdk deploy qcom-datalake-poc-dev-datazone-endpoint -c enableDataZoneEndpoint=true -c dataZoneEndpointSecurityGroups=sg-first,sg-second -c s3GatewayRouteTableId=rtb-example
+```
+
+Private DNS redirects DataZone, Athena, Glue API, Glue Interactive Sessions, STS and Lake Formation requests
+throughout the VPC to the endpoints, but their security group accepts HTTPS only from the supplied project
+security groups. Other VPC clients may lose
+access unless their security groups are added. Update the list when project security groups change.
+Interface endpoints incur hourly and data processing charges. These endpoints provide network
+connectivity only; they do not grant Lake Formation, STS, Glue, DataZone or S3 permissions. Other services may need their
+own endpoints.
+The S3 gateway endpoint changes S3 routing for every subnet using the specified route table; it
+does not grant S3 permissions. Review existing bucket policies and connectivity before deployment.
 
 ```
 cd infra

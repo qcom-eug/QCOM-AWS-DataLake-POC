@@ -79,6 +79,13 @@ export class IamStack extends cdk.Stack {
       description: 'Data lake access role for Lake Formation POC',
     });
 
+    this.dataLakeRole.assumeRolePolicy!.addStatements(
+      new iam.PolicyStatement({
+        principals: [new iam.ServicePrincipal('lakeformation.amazonaws.com')],
+        actions: ['sts:SetContext'],
+      }),
+    );
+
     this.dataLakeRole.addToPolicy(
       new iam.PolicyStatement({
         actions: [

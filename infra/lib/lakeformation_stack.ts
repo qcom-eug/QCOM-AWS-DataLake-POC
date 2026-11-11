@@ -29,6 +29,10 @@ export interface LakeFormationStackProps extends cdk.StackProps {
   roleGrants?: { id: string; role: iam.IRole; teamKeys: string[] }[];
   // IAM roles granted direct (non-tag) grants on the listed tables
   namedRoleGrants?: { id: string; role: iam.IRole; tables: Record<string, string[]> }[];
+  // SMUS execution roles opted into the hybrid scenario; access remains governed by user group grants.
+  hybridProjectRoleNames?: string[];
+  // SMUS execution roles permitted to read the Glue Identity Center configuration.
+  glueIdentityProjectRoleNames?: string[];
   // 'parquet' = current read-only tables, 'none' = drop all tables (and their grants), 'iceberg' = updateable tables.
   // CloudFormation cannot convert a table in place, so go parquet -> none -> iceberg in two deploys.
   tableMode?: 'parquet' | 'none' | 'iceberg';
@@ -329,6 +333,45 @@ export class LakeFormationStack extends cdk.Stack {
       }
     }
 
+    if (iceberg && (props.hybridProjectRoleNames ?? []).length > 0) {
+      new iam.CfnPolicy(this, 'ScenarioProjectGlueUpdate', {
+        policyName: resourceName(stage, 'scenario-project-glue-update'),
+        roles: props.hybridProjectRoleNames,
+        policyDocument: {
+          Version: '2012-10-17',
+          Statement: [{
+            Effect: 'Allow',
+            Action: ['glue:UpdateTable'],
+            Resource: [
+              `arn:${this.partition}:glue:${this.region}:${this.account}:catalog`,
+              ...ACCESS_SCENARIO_DATABASES.flatMap((scenario) => {
+                const name = databaseName(stage, scenario.name);
+                return [
+                  `arn:${this.partition}:glue:${this.region}:${this.account}:database/${name}`,
+                  `arn:${this.partition}:glue:${this.region}:${this.account}:table/${name}/*`,
+                ];
+              }),
+            ],
+          }],
+        },
+      });
+    }
+
+    if ((props.glueIdentityProjectRoleNames ?? []).length > 0) {
+      new iam.CfnPolicy(this, 'ProjectGlueIdentityConfiguration', {
+        policyName: resourceName(stage, 'project-glue-identity-configuration'),
+        roles: props.glueIdentityProjectRoleNames,
+        policyDocument: {
+          Version: '2012-10-17',
+          Statement: [{
+            Effect: 'Allow',
+            Action: ['glue:GetGlueIdentityCenterConfiguration'],
+            Resource: '*',
+          }],
+        },
+      });
+    }
+
     for (const scenario of ACCESS_SCENARIO_DATABASES) {
       const scenarioBucket = new s3.Bucket(this, `ScenarioBucket-${scenario.key}`, {
         bucketName: resourceName(stage, `${scenario.key}-${this.account}-${this.region}`),
@@ -369,6 +412,7 @@ export class LakeFormationStack extends cdk.Stack {
         databaseInput: {
           name: scenarioDbName,
           locationUri: scenarioBucket.s3UrlForObject(''),
+          ...(isHybrid ? {} : { createTableDefaultPermissions: [] }),
         },
       });
       scenarioDb.node.addDependency(settings, scenarioLocation);
@@ -420,6 +464,35 @@ export class LakeFormationStack extends cdk.Stack {
           lfTags: [{ catalogId: this.account, tagKey: 'access-scenario', tagValues: ['scenario1'] }],
         });
         tagAssociation.node.addDependency(scenarioDb, scenarioTag);
+        const groupTeams = ACCESS_TEAMS.filter((team) =>
+          (props.groupGrants ?? []).some((group) => group.teamKeys.includes(team.key)),
+        );
+        for (const team of groupTeams) {
+          const dbTagKey = databaseTagKey(team.key);
+          const dbTeamAssociation = new lakeformation.CfnTagAssociation(
+            this,
+            `Scenario1DbTeamTag-${team.key}`,
+            {
+              resource: { database: { catalogId: this.account, name: scenarioDbName } },
+              lfTags: [{ catalogId: this.account, tagKey: dbTagKey, tagValues: [LF_TAG_VALUE] }],
+            },
+          );
+          dbTeamAssociation.node.addDependency(scenarioDb, tagsByKey.get(dbTagKey)!);
+          for (const table of tableResources.filter((t) =>
+            Object.values(team.tables).some((names) => names.includes(t.name)),
+          )) {
+            const tableKey = tableTagKey(team.key);
+            const association = new lakeformation.CfnTagAssociation(
+              this,
+              `Scenario1TableTeamTag-${team.key}-${table.name}`,
+              {
+                resource: { table: { catalogId: this.account, databaseName: scenarioDbName, name: table.name } },
+                lfTags: [{ catalogId: this.account, tagKey: tableKey, tagValues: [LF_TAG_VALUE] }],
+              },
+            );
+            association.node.addDependency(table.resource, tagsByKey.get(tableKey)!);
+          }
+        }
         for (const table of tableResources) {
           table.resource.addDependency(tagAssociation);
         }
@@ -454,6 +527,29 @@ export class LakeFormationStack extends cdk.Stack {
         });
         dbGrant.node.addDependency(scenarioDb);
 
+        for (const group of props.groupGrants ?? []) {
+          const groupDbGrant = new lakeformation.CfnPermissions(this, `Scenario2GroupDb-${group.groupId}`, {
+            dataLakePrincipal: { dataLakePrincipalIdentifier: `arn:aws:identitystore:::group/${group.groupId}` },
+            resource: { databaseResource: { catalogId: this.account, name: scenarioDbName } },
+            permissions: ['DESCRIBE'],
+          });
+          groupDbGrant.node.addDependency(scenarioDb);
+          const allowedTables = new Set(ACCESS_TEAMS.filter((team) => group.teamKeys.includes(team.key))
+            .flatMap((team) => Object.values(team.tables).flat()));
+          for (const table of tableResources.filter((t) => allowedTables.has(t.name))) {
+            const groupTableGrant = new lakeformation.CfnPermissions(
+              this,
+              `Scenario2GroupTable-${group.groupId}-${table.name}`,
+              {
+                dataLakePrincipal: { dataLakePrincipalIdentifier: `arn:aws:identitystore:::group/${group.groupId}` },
+                resource: { tableResource: { catalogId: this.account, databaseName: scenarioDbName, name: table.name } },
+                permissions: tablePermissions,
+              },
+            );
+            groupTableGrant.node.addDependency(table.resource, groupDbGrant);
+          }
+        }
+
         for (const table of tableResources) {
           const tableGrant = new lakeformation.CfnPermissions(this, `Scenario2TableGrant-${table.name}`, {
             dataLakePrincipal: { dataLakePrincipalIdentifier: scenarioRoles.named.roleArn },
@@ -481,6 +577,78 @@ export class LakeFormationStack extends cdk.Stack {
         });
         lfDbGrant.node.addDependency(scenarioDb);
         iamDbGrant.node.addDependency(scenarioDb);
+
+        const projectOptIns: cr.AwsCustomResource[] = [];
+        for (const roleName of props.hybridProjectRoleNames ?? []) {
+          const principal = { DataLakePrincipalIdentifier: `arn:${this.partition}:iam::${this.account}:role/${roleName}` };
+          const dbResource = { Database: { CatalogId: this.account, Name: scenarioDbName } };
+          const projectDbOptIn = new cr.AwsCustomResource(this, `Scenario3ProjectDbOptIn-${roleName}`, {
+            onCreate: {
+              service: 'LakeFormation',
+              action: 'CreateLakeFormationOptIn',
+              parameters: { Principal: principal, Resource: dbResource },
+              physicalResourceId: cr.PhysicalResourceId.of(`${roleName}-${scenarioDbName}`),
+            },
+            onDelete: {
+              service: 'LakeFormation',
+              action: 'DeleteLakeFormationOptIn',
+              parameters: { Principal: principal, Resource: dbResource },
+            },
+            role: scenarioOptInRole,
+            installLatestAwsSdk: true,
+          });
+          projectDbOptIn.node.addDependency(settings, iamDbGrant);
+          projectOptIns.push(projectDbOptIn);
+          for (const table of tableResources) {
+            const tableResource = {
+              Table: { CatalogId: this.account, DatabaseName: scenarioDbName, Name: table.name },
+            };
+            const projectTableOptIn = new cr.AwsCustomResource(
+              this,
+              `Scenario3ProjectTableOptIn-${roleName}-${table.name}`,
+              {
+                onCreate: {
+                  service: 'LakeFormation',
+                  action: 'CreateLakeFormationOptIn',
+                  parameters: { Principal: principal, Resource: tableResource },
+                  physicalResourceId: cr.PhysicalResourceId.of(`${roleName}-${scenarioDbName}-${table.name}`),
+                },
+                onDelete: {
+                  service: 'LakeFormation',
+                  action: 'DeleteLakeFormationOptIn',
+                  parameters: { Principal: principal, Resource: tableResource },
+                },
+                role: scenarioOptInRole,
+                installLatestAwsSdk: true,
+              },
+            );
+            projectTableOptIn.node.addDependency(projectDbOptIn, table.resource);
+            projectOptIns.push(projectTableOptIn);
+          }
+        }
+
+        for (const group of props.groupGrants ?? []) {
+          const groupDbGrant = new lakeformation.CfnPermissions(this, `Scenario3GroupDb-${group.groupId}`, {
+            dataLakePrincipal: { dataLakePrincipalIdentifier: `arn:aws:identitystore:::group/${group.groupId}` },
+            resource: { databaseResource: { catalogId: this.account, name: scenarioDbName } },
+            permissions: ['DESCRIBE'],
+          });
+          groupDbGrant.node.addDependency(scenarioDb, ...projectOptIns);
+          const allowedTables = new Set(ACCESS_TEAMS.filter((team) => group.teamKeys.includes(team.key))
+            .flatMap((team) => Object.values(team.tables).flat()));
+          for (const table of tableResources.filter((t) => allowedTables.has(t.name))) {
+            const groupTableGrant = new lakeformation.CfnPermissions(
+              this,
+              `Scenario3GroupTable-${group.groupId}-${table.name}`,
+              {
+                dataLakePrincipal: { dataLakePrincipalIdentifier: `arn:aws:identitystore:::group/${group.groupId}` },
+                resource: { tableResource: { catalogId: this.account, databaseName: scenarioDbName, name: table.name } },
+                permissions: tablePermissions,
+              },
+            );
+            groupTableGrant.node.addDependency(table.resource, groupDbGrant);
+          }
+        }
 
         const scenario3TableOptIns: cr.AwsCustomResource[] = [];
         for (const table of tableResources) {
