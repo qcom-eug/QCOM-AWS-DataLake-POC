@@ -11,6 +11,7 @@ export class IamStack extends cdk.Stack {
   public readonly dataLakeRole: iam.Role;
   public readonly smusManageAccessRole: iam.Role;
   public readonly smusProvisioningRole: iam.Role;
+  public readonly teamARole: iam.Role;
 
   constructor(scope: Construct, id: string, props: IamStackProps) {
     super(scope, id, props);
@@ -35,6 +36,38 @@ export class IamStack extends cdk.Stack {
       }),
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
     });
+
+    // Direct (non-tag) Lake Formation grants for this role are set in infra.ts via namedRoleGrants.
+    // No S3 permissions: Lake Formation vends the data access to Athena.
+    this.teamARole = new iam.Role(this, 'TeamARole', {
+      roleName: resourceName(props.stage, 'team-a-role'),
+      assumedBy: new iam.AccountRootPrincipal(),
+      description: 'Query role with direct Lake Formation grants (see namedRoleGrants in infra.ts)',
+    });
+    this.teamARole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'glue:GetDatabase',
+          'glue:GetDatabases',
+          'glue:GetTable',
+          'glue:GetTables',
+          'glue:GetPartitions',
+          'glue:BatchGetPartition',
+          'glue:BatchCreatePartition',
+          'glue:CreatePartition',
+          'glue:UpdatePartition',
+          'glue:UpdateTable',
+          'athena:StartQueryExecution',
+          'athena:GetQueryExecution',
+          'athena:GetQueryResults',
+          'athena:StopQueryExecution',
+          'athena:GetWorkGroup',
+          'athena:ListWorkGroups',
+          'lakeformation:GetDataAccess',
+        ],
+        resources: ['*'],
+      }),
+    );
 
     // Role used by Lake Formation to access registered S3 locations and by analysts for Glue/Athena
     this.dataLakeRole = new iam.Role(this, 'DataLakeRole', {

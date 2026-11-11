@@ -27,7 +27,7 @@
                 ]
               },
               "stackTraces": [
-                "...new Function2 in aws-cdk-lib...\nnew QueryApiStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\query_api_stack.ts:47:16)\n<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:38:23)\n...node internals, ts-node, ts-node..."
+                "...new Function2 in aws-cdk-lib...\nnew QueryApiStack (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\lib\\query_api_stack.ts:47:16)\n<anonymous> (C:\\Users\\eugene.lau\\Downloads\\To_Eugene_SMUS\\QCOM-AWS-DataLake-POC\\infra\\bin\\infra.ts:42:23)\n...node internals, ts-node, ts-node..."
               ]
             }
           ]

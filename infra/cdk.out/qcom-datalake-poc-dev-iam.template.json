@@ -94,6 +94,81 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-iam/SmusProvisioningRole/Resource"
    }
   },
+  "TeamARole823FCB8B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::471932413417:root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Query role with direct Lake Formation grants (see namedRoleGrants in infra.ts)",
+    "RoleName": "qcom-datalake-poc-dev-team-a-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/TeamARole/Resource"
+   }
+  },
+  "TeamARoleDefaultPolicy840BD224": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetPartitions",
+        "glue:BatchGetPartition",
+        "glue:BatchCreatePartition",
+        "glue:CreatePartition",
+        "glue:UpdatePartition",
+        "glue:UpdateTable",
+        "athena:StartQueryExecution",
+        "athena:GetQueryExecution",
+        "athena:GetQueryResults",
+        "athena:StopQueryExecution",
+        "athena:GetWorkGroup",
+        "athena:ListWorkGroups",
+        "lakeformation:GetDataAccess"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "TeamARoleDefaultPolicy840BD224",
+    "Roles": [
+     {
+      "Ref": "TeamARole823FCB8B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-iam/TeamARole/DefaultPolicy/Resource"
+   }
+  },
   "DataLakeRole19B82055": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -203,6 +278,17 @@
    },
    "Export": {
     "Name": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttSmusManageAccessRoleB9672B2DArn4713343E"
+   }
+  },
+  "ExportsOutputFnGetAttTeamARole823FCB8BArnD46F8DD5": {
+   "Value": {
+    "Fn::GetAtt": [
+     "TeamARole823FCB8B",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttTeamARole823FCB8BArnD46F8DD5"
    }
   }
  },

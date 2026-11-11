@@ -5,7 +5,7 @@ import { LakeFormationStack } from '../lib/lakeformation_stack';
 import { QueryApiStack } from '../lib/query_api_stack';
 import { SmusStack } from '../lib/smus_stack';
 
-test('creates role, 2 databases and 4 tables', () => {
+test('creates core and three access-scenario databases', () => {
   const app = new cdk.App();
   const env = { account: '111111111111', region: 'us-east-1' };
   const iamStack = new IamStack(app, 'iam', { env, stage: 'dev' });
@@ -21,10 +21,19 @@ test('creates role, 2 databases and 4 tables', () => {
     provisioningRole: iamStack.smusProvisioningRole,
   });
 
-  Template.fromStack(iamStack).resourceCountIs('AWS::IAM::Role', 3);
+  Template.fromStack(iamStack).resourceCountIs('AWS::IAM::Role', 4);
   const t = Template.fromStack(lf);
-  t.resourceCountIs('AWS::Glue::Database', 2);
-  t.resourceCountIs('AWS::Glue::Table', 4);
+  t.resourceCountIs('AWS::Glue::Database', 5);
+  t.resourceCountIs('AWS::Glue::Table', 16);
+  t.resourceCountIs('AWS::LakeFormation::Resource', 4);
+  t.hasResourceProperties('AWS::LakeFormation::Resource', {
+    HybridAccessEnabled: true,
+  });
+  t.hasResourceProperties('AWS::LakeFormation::Permissions', {
+    DataLakePrincipal: { DataLakePrincipalIdentifier: 'IAM_ALLOWED_PRINCIPALS' },
+    Permissions: ['ALL'],
+  });
+  t.resourceCountIs('AWS::LakeFormation::PrincipalPermissions', 2);
 
   const api = Template.fromStack(apiStack);
   api.hasResourceProperties('AWS::Lambda::Function', {
@@ -38,4 +47,27 @@ test('creates role, 2 databases and 4 tables', () => {
   s.resourceCountIs('AWS::DataZone::Project', 1);
   s.resourceCountIs('AWS::DataZone::ProjectProfile', 1);
   s.resourceCountIs('AWS::DataZone::EnvironmentBlueprintConfiguration', 1);
+});
+
+test.each([
+  { tableMode: 'none' as const, tables: 0, format: false },
+  { tableMode: 'iceberg' as const, tables: 16, format: true },
+])('tableMode $tableMode', ({ tableMode, tables, format }) => {
+  const app = new cdk.App();
+  const env = { account: '111111111111', region: 'us-east-1' };
+  const iamStack = new IamStack(app, 'tm-iam', { env, stage: 'dev' });
+  const lf = new LakeFormationStack(app, 'tm-lf', { env, stage: 'dev', dataLakeRole: iamStack.dataLakeRole, tableMode });
+  const t = Template.fromStack(lf);
+  t.resourceCountIs('AWS::Glue::Database', 5);
+  t.resourceCountIs('AWS::Glue::Table', tables);
+  if (format) {
+    t.allResourcesProperties('AWS::Glue::Table', {
+      OpenTableFormatInput: { IcebergInput: { MetadataOperation: 'CREATE', Version: '2' } },
+    });
+    t.hasResourceProperties('AWS::LakeFormation::Permissions', {
+      Permissions: ['SELECT', 'INSERT', 'DELETE', 'ALTER', 'DESCRIBE'],
+    });
+  } else {
+    t.resourceCountIs('AWS::LakeFormation::TagAssociation', 5);
+  }
 });

@@ -16,16 +16,31 @@
         }
       }
     },
-    "673ef7a38cf400cf196dece3c550d0535f6fb76e88050b1d7c1cfd527b2c2aaf": {
+    "9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125": {
+      "displayName": "AWS679f53fac002430cb0da5b7982bd2287/Code",
+      "source": {
+        "path": "asset.9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "471932413417-ca-central-1-b0312ac7": {
+          "bucketName": "cdk-hnb659fds-assets-471932413417-ca-central-1",
+          "objectKey": "9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125.zip",
+          "region": "ca-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-file-publishing-role-471932413417-ca-central-1"
+        }
+      }
+    },
+    "46a981ff25c70542dddb459d7bbe8edcf2209f627681e9131f9edb554b66fe5a": {
       "displayName": "qcom-datalake-poc-dev-lakeformation Template",
       "source": {
         "path": "qcom-datalake-poc-dev-lakeformation.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "471932413417-ca-central-1-544874e9": {
+        "471932413417-ca-central-1-5a3b7e14": {
           "bucketName": "cdk-hnb659fds-assets-471932413417-ca-central-1",
-          "objectKey": "673ef7a38cf400cf196dece3c550d0535f6fb76e88050b1d7c1cfd527b2c2aaf.json",
+          "objectKey": "46a981ff25c70542dddb459d7bbe8edcf2209f627681e9131f9edb554b66fe5a.json",
           "region": "ca-central-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-file-publishing-role-471932413417-ca-central-1"
         }

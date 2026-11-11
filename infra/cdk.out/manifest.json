@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-deploy-role-471932413417-ca-central-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-cfn-exec-role-471932413417-ca-central-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-471932413417-ca-central-1/6d0c858bef1bccdaa3607d84472c52441fd1e8e239455a708c2e782acc2b9c3c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-471932413417-ca-central-1/0391cb5784eb6951af924b785b36b9c9564b21e2a4229387791195aa5478c728.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -53,7 +53,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-deploy-role-471932413417-ca-central-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-cfn-exec-role-471932413417-ca-central-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-471932413417-ca-central-1/673ef7a38cf400cf196dece3c550d0535f6fb76e88050b1d7c1cfd527b2c2aaf.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-471932413417-ca-central-1/46a981ff25c70542dddb459d7bbe8edcf2209f627681e9131f9edb554b66fe5a.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -144,43 +144,6 @@
       ],
       "additionalMetadataFile": "qcom-datalake-poc-dev-smus.metadata.json",
       "displayName": "qcom-datalake-poc-dev-smus"
-    },
-    "qcom-datalake-poc-dev-smus-idc.assets": {
-      "type": "cdk:asset-manifest",
-      "properties": {
-        "file": "qcom-datalake-poc-dev-smus-idc.assets.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-      }
-    },
-    "qcom-datalake-poc-dev-smus-idc": {
-      "type": "aws:cloudformation:stack",
-      "environment": "aws://471932413417/ca-central-1",
-      "properties": {
-        "templateFile": "qcom-datalake-poc-dev-smus-idc.template.json",
-        "terminationProtection": false,
-        "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-deploy-role-471932413417-ca-central-1",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-cfn-exec-role-471932413417-ca-central-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-471932413417-ca-central-1/f53548db0bfd6f4e81c71706d9cff417e37643c516354c9912f5c83b897d85bd.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
-        "additionalDependencies": [
-          "qcom-datalake-poc-dev-smus-idc.assets"
-        ],
-        "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::471932413417:role/cdk-hnb659fds-lookup-role-471932413417-ca-central-1",
-          "requiresBootstrapStackVersion": 8,
-          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-        }
-      },
-      "dependencies": [
-        "qcom-datalake-poc-dev-lakeformation",
-        "qcom-datalake-poc-dev-iam",
-        "qcom-datalake-poc-dev-smus-idc.assets"
-      ],
-      "additionalMetadataFile": "qcom-datalake-poc-dev-smus-idc.metadata.json",
-      "displayName": "qcom-datalake-poc-dev-smus-idc"
     },
     "Tree": {
       "type": "cdk:tree",

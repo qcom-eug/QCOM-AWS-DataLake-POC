@@ -57,6 +57,14 @@ export const DATABASES: DatabaseConfig[] = [
   },
 ];
 
+export const SCENARIO_TABLES: TableConfig[] = DATABASES.flatMap((database) => database.tables);
+
+export const ACCESS_SCENARIO_DATABASES = [
+  { key: 'lf-tag', name: 'scenario1_lf_tag' },
+  { key: 'lf-named', name: 'scenario2_lf_named' },
+  { key: 'hybrid', name: 'scenario3_hybrid' },
+] as const;
+
 export interface AccessTeam {
   key: string;
   // database name -> tables the team may query

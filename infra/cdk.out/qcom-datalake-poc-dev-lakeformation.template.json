@@ -258,6 +258,56 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/DataLakeBucketAccess/Resource"
    }
   },
+  "ScenarioOptInExecutionRoleF76EAE33": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "CloudFormation custom-resource role for Lake Formation hybrid opt-in operations"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioOptInExecutionRole/Resource"
+   }
+  },
+  "ScenarioOptInExecutionRoleDefaultPolicyAB443835": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "lakeformation:CreateLakeFormationOptIn",
+        "lakeformation:DeleteLakeFormationOptIn",
+        "glue:GetDatabase",
+        "glue:GetTable"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioOptInExecutionRoleDefaultPolicyAB443835",
+    "Roles": [
+     {
+      "Ref": "ScenarioOptInExecutionRoleF76EAE33"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioOptInExecutionRole/DefaultPolicy/Resource"
+   }
+  },
   "DataLakeSettings": {
    "Type": "AWS::LakeFormation::DataLakeSettings",
    "Properties": {
@@ -265,6 +315,14 @@
      {
       "DataLakePrincipalIdentifier": {
        "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+      }
+     },
+     {
+      "DataLakePrincipalIdentifier": {
+       "Fn::GetAtt": [
+        "ScenarioOptInExecutionRoleF76EAE33",
+        "Arn"
+       ]
       }
      },
      {
@@ -371,7 +429,7 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Tag-db-team-b"
    }
   },
-  "GroupGrant5c2dd518e0d170661ef675b0689f1dd5teamaDATABASE": {
+  "TagGrant5c2dd518e0d170661ef675b0689f1dd5teamaDATABASE": {
    "Type": "AWS::LakeFormation::PrincipalPermissions",
    "Properties": {
     "Permissions": [
@@ -400,14 +458,17 @@
     "Tagdbteama"
    ],
    "Metadata": {
-    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-DATABASE"
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TagGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-DATABASE"
    }
   },
-  "GroupGrant5c2dd518e0d170661ef675b0689f1dd5teamaTABLE": {
+  "TagGrant5c2dd518e0d170661ef675b0689f1dd5teamaTABLE": {
    "Type": "AWS::LakeFormation::PrincipalPermissions",
    "Properties": {
     "Permissions": [
      "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
      "DESCRIBE"
     ],
     "PermissionsWithGrantOption": [],
@@ -433,10 +494,10 @@
     "Tagaccessteama"
    ],
    "Metadata": {
-    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-TABLE"
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TagGrant-5c2dd518-e0d1-7066-1ef6-75b0689f1dd5-team-a-TABLE"
    }
   },
-  "GroupGrant8cbd15e870b170774112371c8c8d9404teambDATABASE": {
+  "TagGrant8cbd15e870b170774112371c8c8d9404teambDATABASE": {
    "Type": "AWS::LakeFormation::PrincipalPermissions",
    "Properties": {
     "Permissions": [
@@ -465,14 +526,17 @@
     "Tagdbteamb"
    ],
    "Metadata": {
-    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-DATABASE"
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TagGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-DATABASE"
    }
   },
-  "GroupGrant8cbd15e870b170774112371c8c8d9404teambTABLE": {
+  "TagGrant8cbd15e870b170774112371c8c8d9404teambTABLE": {
    "Type": "AWS::LakeFormation::PrincipalPermissions",
    "Properties": {
     "Permissions": [
      "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
      "DESCRIBE"
     ],
     "PermissionsWithGrantOption": [],
@@ -498,7 +562,38 @@
     "Tagaccessteamb"
    ],
    "Metadata": {
-    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/GroupGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-TABLE"
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TagGrant-8cbd15e8-70b1-7077-4112-371c8c8d9404-team-b-TABLE"
+   }
+  },
+  "NamedLocationPermteamarole": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttTeamARole823FCB8BArnD46F8DD5"
+     }
+    },
+    "Permissions": [
+     "DATA_LOCATION_ACCESS"
+    ],
+    "Resource": {
+     "DataLocationResource": {
+      "CatalogId": "471932413417",
+      "S3Resource": {
+       "Fn::GetAtt": [
+        "DataLakeBucket0256EA8E",
+        "Arn"
+       ]
+      }
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeLocation",
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/NamedLocationPerm-team-a-role"
    }
   },
   "Dbsales": {
@@ -616,49 +711,56 @@
    "Properties": {
     "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_sales",
-    "TableInput": {
-     "Name": "orders",
-     "Parameters": {
-      "classification": "parquet"
-     },
-     "StorageDescriptor": {
-      "Columns": [
-       {
-        "Name": "order_id",
-        "Type": "string"
-       },
-       {
-        "Name": "customer_id",
-        "Type": "string"
-       },
-       {
-        "Name": "order_ts",
-        "Type": "timestamp"
-       },
-       {
-        "Name": "amount",
-        "Type": "double"
-       }
-      ],
-      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
-      "Location": {
-       "Fn::Join": [
-        "",
-        [
-         "s3://",
-         {
-          "Ref": "DataLakeBucket0256EA8E"
-         },
-         "/sales/orders/"
+    "Name": "orders",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "DataLakeBucket0256EA8E"
+          },
+          "/sales/orders/"
+         ]
         ]
-       ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "order_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "order_ts",
+          "Required": false,
+          "Type": "timestamp"
+         },
+         {
+          "Id": 4,
+          "Name": "amount",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
       },
-      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
-      "SerdeInfo": {
-       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
-      }
-     },
-     "TableType": "EXTERNAL_TABLE"
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
     }
    },
    "DependsOn": [
@@ -729,45 +831,50 @@
    "Properties": {
     "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_sales",
-    "TableInput": {
-     "Name": "customers",
-     "Parameters": {
-      "classification": "parquet"
-     },
-     "StorageDescriptor": {
-      "Columns": [
-       {
-        "Name": "customer_id",
-        "Type": "string"
-       },
-       {
-        "Name": "name",
-        "Type": "string"
-       },
-       {
-        "Name": "email",
-        "Type": "string"
-       }
-      ],
-      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
-      "Location": {
-       "Fn::Join": [
-        "",
-        [
-         "s3://",
-         {
-          "Ref": "DataLakeBucket0256EA8E"
-         },
-         "/sales/customers/"
+    "Name": "customers",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "DataLakeBucket0256EA8E"
+          },
+          "/sales/customers/"
+         ]
         ]
-       ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "email",
+          "Required": false,
+          "Type": "string"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
       },
-      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
-      "SerdeInfo": {
-       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
-      }
-     },
-     "TableType": "EXTERNAL_TABLE"
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
     }
    },
    "DependsOn": [
@@ -948,45 +1055,50 @@
    "Properties": {
     "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_inventory",
-    "TableInput": {
-     "Name": "products",
-     "Parameters": {
-      "classification": "parquet"
-     },
-     "StorageDescriptor": {
-      "Columns": [
-       {
-        "Name": "product_id",
-        "Type": "string"
-       },
-       {
-        "Name": "name",
-        "Type": "string"
-       },
-       {
-        "Name": "price",
-        "Type": "double"
-       }
-      ],
-      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
-      "Location": {
-       "Fn::Join": [
-        "",
-        [
-         "s3://",
-         {
-          "Ref": "DataLakeBucket0256EA8E"
-         },
-         "/inventory/products/"
+    "Name": "products",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "DataLakeBucket0256EA8E"
+          },
+          "/inventory/products/"
+         ]
         ]
-       ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "price",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
       },
-      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
-      "SerdeInfo": {
-       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
-      }
-     },
-     "TableType": "EXTERNAL_TABLE"
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
     }
    },
    "DependsOn": [
@@ -1081,50 +1193,86 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TablePerm-inventory-products"
    }
   },
+  "NamedTablePermteamaroleinventoryproducts": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttTeamARole823FCB8BArnD46F8DD5"
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventoryproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/NamedTablePerm-team-a-role-inventory-products"
+   }
+  },
   "Tableinventorystocklevels": {
    "Type": "AWS::Glue::Table",
    "Properties": {
     "CatalogId": "471932413417",
     "DatabaseName": "qcom_datalake_poc_dev_inventory",
-    "TableInput": {
-     "Name": "stock_levels",
-     "Parameters": {
-      "classification": "parquet"
-     },
-     "StorageDescriptor": {
-      "Columns": [
-       {
-        "Name": "product_id",
-        "Type": "string"
-       },
-       {
-        "Name": "warehouse",
-        "Type": "string"
-       },
-       {
-        "Name": "quantity",
-        "Type": "int"
-       }
-      ],
-      "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
-      "Location": {
-       "Fn::Join": [
-        "",
-        [
-         "s3://",
-         {
-          "Ref": "DataLakeBucket0256EA8E"
-         },
-         "/inventory/stock_levels/"
+    "Name": "stock_levels",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "DataLakeBucket0256EA8E"
+          },
+          "/inventory/stock_levels/"
+         ]
         ]
-       ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "warehouse",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "quantity",
+          "Required": false,
+          "Type": "int"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
       },
-      "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
-      "SerdeInfo": {
-       "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe"
-      }
-     },
-     "TableType": "EXTERNAL_TABLE"
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
     }
    },
    "DependsOn": [
@@ -1190,13 +1338,2767 @@
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/TablePerm-inventory-stock_levels"
    }
   },
+  "NamedTablePermteamaroleinventorystocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttTeamARole823FCB8BArnD46F8DD5"
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_inventory",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Tableinventorystocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/NamedTablePerm-team-a-role-inventory-stock_levels"
+   }
+  },
+  "NamedDbPermteamaroleinventory": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttTeamARole823FCB8BArnD46F8DD5"
+     }
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_inventory"
+     }
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Dbinventory"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/NamedDbPerm-team-a-role-inventory"
+   }
+  },
+  "ScenarioLfTagRoleF35DEB4F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::471932413417:root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Scenario 1: full Lake Formation access controlled by LF-Tags",
+    "RoleName": "qcom-datalake-poc-dev-scenario1-lf-tag-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLfTagRole/Resource"
+   }
+  },
+  "ScenarioLfTagRoleDefaultPolicyB42B3E0F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetPartitions"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "lakeformation:GetDataAccess",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "glue:UpdateTable",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioLfTagRoleDefaultPolicyB42B3E0F",
+    "Roles": [
+     {
+      "Ref": "ScenarioLfTagRoleF35DEB4F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLfTagRole/DefaultPolicy/Resource"
+   }
+  },
+  "ScenarioLfNamedRoleF2E7436A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::471932413417:root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Scenario 2: full Lake Formation access controlled by named-resource grants",
+    "RoleName": "qcom-datalake-poc-dev-scenario2-lf-named-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLfNamedRole/Resource"
+   }
+  },
+  "ScenarioLfNamedRoleDefaultPolicy7FC67C7B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetPartitions"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "lakeformation:GetDataAccess",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "glue:UpdateTable",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioLfNamedRoleDefaultPolicy7FC67C7B",
+    "Roles": [
+     {
+      "Ref": "ScenarioLfNamedRoleF2E7436A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLfNamedRole/DefaultPolicy/Resource"
+   }
+  },
+  "ScenarioHybridLfRole5F33FD28": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::471932413417:root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Scenario 3: opted-in hybrid access controlled by Lake Formation",
+    "RoleName": "qcom-datalake-poc-dev-scenario3-hybrid-lf-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioHybridLfRole/Resource"
+   }
+  },
+  "ScenarioHybridLfRoleDefaultPolicyC882D577": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetPartitions"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "lakeformation:GetDataAccess",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "glue:UpdateTable",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioHybridLfRoleDefaultPolicyC882D577",
+    "Roles": [
+     {
+      "Ref": "ScenarioHybridLfRole5F33FD28"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioHybridLfRole/DefaultPolicy/Resource"
+   }
+  },
+  "ScenarioHybridIamRole02D09CCA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::471932413417:root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Scenario 3: non-opted-in hybrid access controlled by IAM",
+    "RoleName": "qcom-datalake-poc-dev-scenario3-hybrid-iam-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioHybridIamRole/Resource"
+   }
+  },
+  "ScenarioHybridIamRoleDefaultPolicyE1F36AF5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "glue:GetDatabase",
+        "glue:GetDatabases",
+        "glue:GetTable",
+        "glue:GetTables",
+        "glue:GetPartitions"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:GetBucketLocation"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBuckethybridDA34D2E6",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "ScenarioBuckethybridDA34D2E6",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "glue:UpdateTable",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "s3:ListBucket",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ScenarioBuckethybridDA34D2E6",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioHybridIamRoleDefaultPolicyE1F36AF5",
+    "Roles": [
+     {
+      "Ref": "ScenarioHybridIamRole02D09CCA"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioHybridIamRole/DefaultPolicy/Resource"
+   }
+  },
+  "ScenarioBucketlftagFBA0A4D8": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": "qcom-datalake-poc-dev-lf-tag-471932413417-ca-central-1",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-lf-tag/Resource"
+   }
+  },
+  "ScenarioBucketlftagPolicyCB90F333": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ScenarioBucketlftagFBA0A4D8"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBucketlftagFBA0A4D8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBucketlftagFBA0A4D8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBucketlftagFBA0A4D8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBucketlftagFBA0A4D8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-lf-tag/Policy/Resource"
+   }
+  },
+  "ScenarioBucketlftagAutoDeleteObjectsCustomResource98CC18C8": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ScenarioBucketlftagFBA0A4D8"
+    }
+   },
+   "DependsOn": [
+    "ScenarioBucketlftagPolicyCB90F333"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-lf-tag/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "ScenarioDataLakeBucketAccesslftag66E57F14": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:PutObject*",
+        "s3:DeleteObject*",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBucketlftagFBA0A4D8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBucketlftagFBA0A4D8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioDataLakeBucketAccesslftag66E57F14",
+    "Roles": [
+     {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputRefDataLakeRole19B820556526AEF4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioDataLakeBucketAccess-lf-tag/Resource"
+   }
+  },
+  "ScenarioLocationlftag": {
+   "Type": "AWS::LakeFormation::Resource",
+   "Properties": {
+    "HybridAccessEnabled": false,
+    "ResourceArn": {
+     "Fn::GetAtt": [
+      "ScenarioBucketlftagFBA0A4D8",
+      "Arn"
+     ]
+    },
+    "RoleArn": {
+     "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+    },
+    "UseServiceLinkedRole": false
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLocation-lf-tag"
+   }
+  },
+  "ScenarioDblftag": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseInput": {
+     "LocationUri": {
+      "Fn::Join": [
+       "",
+       [
+        "s3://",
+        {
+         "Ref": "ScenarioBucketlftagFBA0A4D8"
+        },
+        "/"
+       ]
+      ]
+     },
+     "Name": "qcom_datalake_poc_dev_scenario1_lf_tag"
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "ScenarioLocationlftag"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioDb-lf-tag"
+   }
+  },
+  "ScenarioTablelftagorders": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+    "Name": "orders",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlftagFBA0A4D8"
+          },
+          "/orders/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "order_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "order_ts",
+          "Required": false,
+          "Type": "timestamp"
+         },
+         {
+          "Id": 4,
+          "Name": "amount",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1DbTagAssociation",
+    "ScenarioDblftag"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-tag-orders"
+   }
+  },
+  "ScenarioTablelftagcustomers": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+    "Name": "customers",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlftagFBA0A4D8"
+          },
+          "/customers/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "email",
+          "Required": false,
+          "Type": "string"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1DbTagAssociation",
+    "ScenarioDblftag"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-tag-customers"
+   }
+  },
+  "ScenarioTablelftagproducts": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+    "Name": "products",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlftagFBA0A4D8"
+          },
+          "/products/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "price",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1DbTagAssociation",
+    "ScenarioDblftag"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-tag-products"
+   }
+  },
+  "ScenarioTablelftagstocklevels": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario1_lf_tag",
+    "Name": "stock_levels",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlftagFBA0A4D8"
+          },
+          "/stock_levels/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "warehouse",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "quantity",
+          "Required": false,
+          "Type": "int"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1DbTagAssociation",
+    "ScenarioDblftag"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-tag-stock_levels"
+   }
+  },
+  "Scenario1Tag": {
+   "Type": "AWS::LakeFormation::Tag",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "TagKey": "access-scenario",
+    "TagValues": [
+     "scenario1"
+    ]
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1Tag"
+   }
+  },
+  "Scenario1DbTagAssociation": {
+   "Type": "AWS::LakeFormation::TagAssociation",
+   "Properties": {
+    "LFTags": [
+     {
+      "CatalogId": "471932413417",
+      "TagKey": "access-scenario",
+      "TagValues": [
+       "scenario1"
+      ]
+     }
+    ],
+    "Resource": {
+     "Database": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario1_lf_tag"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1Tag",
+    "ScenarioDblftag"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1DbTagAssociation"
+   }
+  },
+  "Scenario1TagGrantDATABASE": {
+   "Type": "AWS::LakeFormation::PrincipalPermissions",
+   "Properties": {
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "PermissionsWithGrantOption": [],
+    "Principal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfTagRoleF35DEB4F",
+       "Arn"
+      ]
+     }
+    },
+    "Resource": {
+     "LFTagPolicy": {
+      "CatalogId": "471932413417",
+      "Expression": [
+       {
+        "TagKey": "access-scenario",
+        "TagValues": [
+         "scenario1"
+        ]
+       }
+      ],
+      "ResourceType": "DATABASE"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1DbTagAssociation"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TagGrant-DATABASE"
+   }
+  },
+  "Scenario1TagGrantTABLE": {
+   "Type": "AWS::LakeFormation::PrincipalPermissions",
+   "Properties": {
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "PermissionsWithGrantOption": [],
+    "Principal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfTagRoleF35DEB4F",
+       "Arn"
+      ]
+     }
+    },
+    "Resource": {
+     "LFTagPolicy": {
+      "CatalogId": "471932413417",
+      "Expression": [
+       {
+        "TagKey": "access-scenario",
+        "TagValues": [
+         "scenario1"
+        ]
+       }
+      ],
+      "ResourceType": "TABLE"
+     }
+    }
+   },
+   "DependsOn": [
+    "Scenario1DbTagAssociation"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario1TagGrant-TABLE"
+   }
+  },
+  "ScenarioBucketlfnamed21047E08": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": "qcom-datalake-poc-dev-lf-named-471932413417-ca-central-1",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-lf-named/Resource"
+   }
+  },
+  "ScenarioBucketlfnamedPolicy36E002D2": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ScenarioBucketlfnamed21047E08"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBucketlfnamed21047E08",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBucketlfnamed21047E08",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBucketlfnamed21047E08",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBucketlfnamed21047E08",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-lf-named/Policy/Resource"
+   }
+  },
+  "ScenarioBucketlfnamedAutoDeleteObjectsCustomResource8572FBD6": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ScenarioBucketlfnamed21047E08"
+    }
+   },
+   "DependsOn": [
+    "ScenarioBucketlfnamedPolicy36E002D2"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-lf-named/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "ScenarioDataLakeBucketAccesslfnamed8B55BF01": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:PutObject*",
+        "s3:DeleteObject*",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBucketlfnamed21047E08",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBucketlfnamed21047E08",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioDataLakeBucketAccesslfnamed8B55BF01",
+    "Roles": [
+     {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputRefDataLakeRole19B820556526AEF4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioDataLakeBucketAccess-lf-named/Resource"
+   }
+  },
+  "ScenarioLocationlfnamed": {
+   "Type": "AWS::LakeFormation::Resource",
+   "Properties": {
+    "HybridAccessEnabled": false,
+    "ResourceArn": {
+     "Fn::GetAtt": [
+      "ScenarioBucketlfnamed21047E08",
+      "Arn"
+     ]
+    },
+    "RoleArn": {
+     "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+    },
+    "UseServiceLinkedRole": false
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLocation-lf-named"
+   }
+  },
+  "ScenarioDblfnamed": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseInput": {
+     "LocationUri": {
+      "Fn::Join": [
+       "",
+       [
+        "s3://",
+        {
+         "Ref": "ScenarioBucketlfnamed21047E08"
+        },
+        "/"
+       ]
+      ]
+     },
+     "Name": "qcom_datalake_poc_dev_scenario2_lf_named"
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "ScenarioLocationlfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioDb-lf-named"
+   }
+  },
+  "ScenarioTablelfnamedorders": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+    "Name": "orders",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlfnamed21047E08"
+          },
+          "/orders/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "order_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "order_ts",
+          "Required": false,
+          "Type": "timestamp"
+         },
+         {
+          "Id": 4,
+          "Name": "amount",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-named-orders"
+   }
+  },
+  "ScenarioTablelfnamedcustomers": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+    "Name": "customers",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlfnamed21047E08"
+          },
+          "/customers/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "email",
+          "Required": false,
+          "Type": "string"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-named-customers"
+   }
+  },
+  "ScenarioTablelfnamedproducts": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+    "Name": "products",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlfnamed21047E08"
+          },
+          "/products/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "price",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-named-products"
+   }
+  },
+  "ScenarioTablelfnamedstocklevels": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+    "Name": "stock_levels",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBucketlfnamed21047E08"
+          },
+          "/stock_levels/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "warehouse",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "quantity",
+          "Required": false,
+          "Type": "int"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-lf-named-stock_levels"
+   }
+  },
+  "Scenario2DbGrant": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfNamedRoleF2E7436A",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario2_lf_named"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDblfnamed"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2DbGrant"
+   }
+  },
+  "Scenario2TableGrantorders": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfNamedRoleF2E7436A",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelfnamedorders"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2TableGrant-orders"
+   }
+  },
+  "Scenario2TableGrantcustomers": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfNamedRoleF2E7436A",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelfnamedcustomers"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2TableGrant-customers"
+   }
+  },
+  "Scenario2TableGrantproducts": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfNamedRoleF2E7436A",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelfnamedproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2TableGrant-products"
+   }
+  },
+  "Scenario2TableGrantstocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioLfNamedRoleF2E7436A",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario2_lf_named",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablelfnamedstocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario2TableGrant-stock_levels"
+   }
+  },
+  "ScenarioBuckethybridDA34D2E6": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": "qcom-datalake-poc-dev-hybrid-471932413417-ca-central-1",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-hybrid/Resource"
+   }
+  },
+  "ScenarioBuckethybridPolicy241A68CF": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ScenarioBuckethybridDA34D2E6"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBuckethybridDA34D2E6",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBuckethybridDA34D2E6",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBuckethybridDA34D2E6",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBuckethybridDA34D2E6",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-hybrid/Policy/Resource"
+   }
+  },
+  "ScenarioBuckethybridAutoDeleteObjectsCustomResource49E5B58F": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ScenarioBuckethybridDA34D2E6"
+    }
+   },
+   "DependsOn": [
+    "ScenarioBuckethybridPolicy241A68CF"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioBucket-hybrid/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "ScenarioDataLakeBucketAccesshybrid84FE6A0E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:PutObject*",
+        "s3:DeleteObject*",
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScenarioBuckethybridDA34D2E6",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScenarioBuckethybridDA34D2E6",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ScenarioDataLakeBucketAccesshybrid84FE6A0E",
+    "Roles": [
+     {
+      "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputRefDataLakeRole19B820556526AEF4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioDataLakeBucketAccess-hybrid/Resource"
+   }
+  },
+  "ScenarioLocationhybrid": {
+   "Type": "AWS::LakeFormation::Resource",
+   "Properties": {
+    "HybridAccessEnabled": true,
+    "ResourceArn": {
+     "Fn::GetAtt": [
+      "ScenarioBuckethybridDA34D2E6",
+      "Arn"
+     ]
+    },
+    "RoleArn": {
+     "Fn::ImportValue": "qcom-datalake-poc-dev-iam:ExportsOutputFnGetAttDataLakeRole19B82055ArnCE61052E"
+    },
+    "UseServiceLinkedRole": false
+   },
+   "DependsOn": [
+    "DataLakeSettings"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioLocation-hybrid"
+   }
+  },
+  "ScenarioDbhybrid": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseInput": {
+     "LocationUri": {
+      "Fn::Join": [
+       "",
+       [
+        "s3://",
+        {
+         "Ref": "ScenarioBuckethybridDA34D2E6"
+        },
+        "/"
+       ]
+      ]
+     },
+     "Name": "qcom_datalake_poc_dev_scenario3_hybrid"
+    }
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "ScenarioLocationhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioDb-hybrid"
+   }
+  },
+  "ScenarioTablehybridorders": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+    "Name": "orders",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBuckethybridDA34D2E6"
+          },
+          "/orders/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "order_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "order_ts",
+          "Required": false,
+          "Type": "timestamp"
+         },
+         {
+          "Id": 4,
+          "Name": "amount",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-hybrid-orders"
+   }
+  },
+  "ScenarioTablehybridcustomers": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+    "Name": "customers",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBuckethybridDA34D2E6"
+          },
+          "/customers/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "customer_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "email",
+          "Required": false,
+          "Type": "string"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-hybrid-customers"
+   }
+  },
+  "ScenarioTablehybridproducts": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+    "Name": "products",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBuckethybridDA34D2E6"
+          },
+          "/products/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "name",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "price",
+          "Required": false,
+          "Type": "double"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-hybrid-products"
+   }
+  },
+  "ScenarioTablehybridstocklevels": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": "471932413417",
+    "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+    "Name": "stock_levels",
+    "OpenTableFormatInput": {
+     "IcebergInput": {
+      "IcebergTableInput": {
+       "Location": {
+        "Fn::Join": [
+         "",
+         [
+          "s3://",
+          {
+           "Ref": "ScenarioBuckethybridDA34D2E6"
+          },
+          "/stock_levels/"
+         ]
+        ]
+       },
+       "Schema": {
+        "Fields": [
+         {
+          "Id": 1,
+          "Name": "product_id",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 2,
+          "Name": "warehouse",
+          "Required": false,
+          "Type": "string"
+         },
+         {
+          "Id": 3,
+          "Name": "quantity",
+          "Required": false,
+          "Type": "int"
+         }
+        ],
+        "SchemaId": 0,
+        "Type": "struct"
+       }
+      },
+      "MetadataOperation": "CREATE",
+      "Version": "2"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/ScenarioTable-hybrid-stock_levels"
+   }
+  },
+  "Scenario3LfDbGrant": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioHybridLfRole5F33FD28",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario3_hybrid"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3LfDbGrant"
+   }
+  },
+  "Scenario3IamAllowedDbGrant": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "IAM_ALLOWED_PRINCIPALS"
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "DatabaseResource": {
+      "CatalogId": "471932413417",
+      "Name": "qcom_datalake_poc_dev_scenario3_hybrid"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioDbhybrid"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3IamAllowedDbGrant"
+   }
+  },
+  "Scenario3LfTableGrantorders": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioHybridLfRole5F33FD28",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridorders"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3LfTableGrant-orders"
+   }
+  },
+  "Scenario3IamAllowedTableGrantorders": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "IAM_ALLOWED_PRINCIPALS"
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "orders"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridorders"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3IamAllowedTableGrant-orders"
+   }
+  },
+  "Scenario3TableOptInordersAC822C0E": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}},\"physicalResourceId\":{\"id\":\"qcom-datalake-poc-dev-scenario3-hybrid-lf-role-qcom_datalake_poc_dev_scenario3_hybrid-orders\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"orders\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3DatabaseOptInEECDBDB5",
+    "Scenario3IamAllowedDbGrant",
+    "Scenario3IamAllowedTableGrantorders",
+    "Scenario3LfDbGrant",
+    "Scenario3LfTableGrantorders"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3TableOptIn-orders/Resource/Default"
+   }
+  },
+  "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-471932413417-ca-central-1",
+     "S3Key": "9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125.zip"
+    },
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ScenarioOptInExecutionRoleF76EAE33",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "ScenarioOptInExecutionRoleDefaultPolicyAB443835",
+    "ScenarioOptInExecutionRoleF76EAE33"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/AWS679f53fac002430cb0da5b7982bd2287/Resource",
+    "aws:asset:path": "asset.9b8fce7ae7f25ef82fdbaf6b72523b99d0875c0c9c826642819fb51f11d9b125",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "Scenario3LfTableGrantcustomers": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioHybridLfRole5F33FD28",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridcustomers"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3LfTableGrant-customers"
+   }
+  },
+  "Scenario3IamAllowedTableGrantcustomers": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "IAM_ALLOWED_PRINCIPALS"
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "customers"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridcustomers"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3IamAllowedTableGrant-customers"
+   }
+  },
+  "Scenario3TableOptIncustomers85685FD1": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}},\"physicalResourceId\":{\"id\":\"qcom-datalake-poc-dev-scenario3-hybrid-lf-role-qcom_datalake_poc_dev_scenario3_hybrid-customers\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"customers\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3DatabaseOptInEECDBDB5",
+    "Scenario3IamAllowedDbGrant",
+    "Scenario3IamAllowedTableGrantcustomers",
+    "Scenario3LfDbGrant",
+    "Scenario3LfTableGrantcustomers"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3TableOptIn-customers/Resource/Default"
+   }
+  },
+  "Scenario3LfTableGrantproducts": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioHybridLfRole5F33FD28",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3LfTableGrant-products"
+   }
+  },
+  "Scenario3IamAllowedTableGrantproducts": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "IAM_ALLOWED_PRINCIPALS"
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "products"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridproducts"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3IamAllowedTableGrant-products"
+   }
+  },
+  "Scenario3TableOptInproducts7F49DF90": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}},\"physicalResourceId\":{\"id\":\"qcom-datalake-poc-dev-scenario3-hybrid-lf-role-qcom_datalake_poc_dev_scenario3_hybrid-products\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"products\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3DatabaseOptInEECDBDB5",
+    "Scenario3IamAllowedDbGrant",
+    "Scenario3IamAllowedTableGrantproducts",
+    "Scenario3LfDbGrant",
+    "Scenario3LfTableGrantproducts"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3TableOptIn-products/Resource/Default"
+   }
+  },
+  "Scenario3LfTableGrantstocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": {
+      "Fn::GetAtt": [
+       "ScenarioHybridLfRole5F33FD28",
+       "Arn"
+      ]
+     }
+    },
+    "Permissions": [
+     "SELECT",
+     "INSERT",
+     "DELETE",
+     "ALTER",
+     "DESCRIBE"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridstocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3LfTableGrant-stock_levels"
+   }
+  },
+  "Scenario3IamAllowedTableGrantstocklevels": {
+   "Type": "AWS::LakeFormation::Permissions",
+   "Properties": {
+    "DataLakePrincipal": {
+     "DataLakePrincipalIdentifier": "IAM_ALLOWED_PRINCIPALS"
+    },
+    "Permissions": [
+     "ALL"
+    ],
+    "Resource": {
+     "TableResource": {
+      "CatalogId": "471932413417",
+      "DatabaseName": "qcom_datalake_poc_dev_scenario3_hybrid",
+      "Name": "stock_levels"
+     }
+    }
+   },
+   "DependsOn": [
+    "ScenarioTablehybridstocklevels"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3IamAllowedTableGrant-stock_levels"
+   }
+  },
+  "Scenario3TableOptInstocklevelsD7810B61": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}},\"physicalResourceId\":{\"id\":\"qcom-datalake-poc-dev-scenario3-hybrid-lf-role-qcom_datalake_poc_dev_scenario3_hybrid-stock_levels\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Table\":{\"CatalogId\":\"471932413417\",\"DatabaseName\":\"qcom_datalake_poc_dev_scenario3_hybrid\",\"Name\":\"stock_levels\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3DatabaseOptInEECDBDB5",
+    "Scenario3IamAllowedDbGrant",
+    "Scenario3IamAllowedTableGrantstocklevels",
+    "Scenario3LfDbGrant",
+    "Scenario3LfTableGrantstocklevels"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3TableOptIn-stock_levels/Resource/Default"
+   }
+  },
+  "Scenario3DatabaseOptInEECDBDB5": {
+   "Type": "Custom::AWS",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+      "Arn"
+     ]
+    },
+    "Create": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"CreateLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}},\"physicalResourceId\":{\"id\":\"qcom-datalake-poc-dev-scenario3-hybrid-lf-role-qcom_datalake_poc_dev_scenario3_hybrid\"}}"
+      ]
+     ]
+    },
+    "Delete": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"service\":\"LakeFormation\",\"action\":\"DeleteLakeFormationOptIn\",\"parameters\":{\"Principal\":{\"DataLakePrincipalIdentifier\":\"",
+       {
+        "Fn::GetAtt": [
+         "ScenarioHybridLfRole5F33FD28",
+         "Arn"
+        ]
+       },
+       "\"},\"Resource\":{\"Database\":{\"CatalogId\":\"471932413417\",\"Name\":\"qcom_datalake_poc_dev_scenario3_hybrid\"}}}}"
+      ]
+     ]
+    },
+    "InstallLatestAwsSdk": true
+   },
+   "DependsOn": [
+    "DataLakeSettings",
+    "Scenario3IamAllowedDbGrant",
+    "Scenario3LfDbGrant"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/Scenario3DatabaseOptIn/Resource/Default"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5WNy07DQAxFv6VZT4cqBSGx62OJRNWwQwg5UzdyMw80dlpQNP+OkqlIWbLyte7xcanLxwe9mMGF5+bQzi3Vuq8ETKvgwh89L3W/7kyLojZHn9NbXzj6Il88FbdnA89LPVasM7rqJGzRouBLfUIjXKR3latdsGS+J2ve/+HOB5WAoEM/qpMicLqf1DklZaHFY4gOhILX/ebotyDwDC1WKEK+4YHeI4cuGhzyKzSjIJI39Al2h9ERMwXP13rFHAyNxpGcgKQa2+Hvmxr4qqwtpqQ2HUtwt8+m/KfaxXCmA8b1IFgxo1QCDfkmKR8OqE98dy7vdbnQi9mJieax80IO9T7PH0zjqgndAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/9WQTW/CMAyGfws9hwzBpkm7QdFOk0CU2zQhNzWVaZug2oFNVf/71JTxsRu37eTXsR/becd6/PykRwM48tBkxbCkVDeJgCkUHHnT8EQ3M28KFBVvba/em6iiT7LRS3SNdf080aHEum+denFzLFFwke7QCEet+rf0h+pLS1eS+br40ed3uNIDiYBghfbOw/4S/OPIDBhbRVDp5mLOSa1ciV3axVaVUODW1RUIOaubeGvnIPAGBSYoQjbn0IvsfG0Ct4Y8TKvJGtpDucS6ImZyNrT+SteQT5mdobCgVXnp8bwmBT6NTPtbqjQD3SRk8xLF2VdvTYeps4i358dW8WQDzCisp11oVexZXHV97EXflJa1O1CGdeeTCnAikJMNP1t42XtRJhCb+oSwnh75dkqrrMtQ7/jhMH7U45EeDXZMNKy9FapQr/r4DZoNBUDTAwAA"
    },
    "Metadata": {
     "aws:cdk:path": "qcom-datalake-poc-dev-lakeformation/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ScenarioDatabaselftag": {
+   "Value": "qcom_datalake_poc_dev_scenario1_lf_tag"
+  },
+  "ScenarioBucketNamelftag": {
+   "Value": {
+    "Ref": "ScenarioBucketlftagFBA0A4D8"
+   }
+  },
+  "ScenarioDatabaselfnamed": {
+   "Value": "qcom_datalake_poc_dev_scenario2_lf_named"
+  },
+  "ScenarioBucketNamelfnamed": {
+   "Value": {
+    "Ref": "ScenarioBucketlfnamed21047E08"
+   }
+  },
+  "ScenarioDatabasehybrid": {
+   "Value": "qcom_datalake_poc_dev_scenario3_hybrid"
+  },
+  "ScenarioBucketNamehybrid": {
+   "Value": {
+    "Ref": "ScenarioBuckethybridDA34D2E6"
+   }
+  },
+  "Scenario1TaggedRoleArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ScenarioLfTagRoleF35DEB4F",
+     "Arn"
+    ]
+   }
+  },
+  "Scenario2NamedRoleArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ScenarioLfNamedRoleF2E7436A",
+     "Arn"
+    ]
+   }
+  },
+  "Scenario3HybridLfRoleArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ScenarioHybridLfRole5F33FD28",
+     "Arn"
+    ]
+   }
+  },
+  "Scenario3HybridIamRoleArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ScenarioHybridIamRole02D09CCA",
+     "Arn"
+    ]
    }
   }
  },

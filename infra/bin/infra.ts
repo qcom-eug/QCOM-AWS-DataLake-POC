@@ -17,8 +17,6 @@ const env = {
 
 const salesGroupId: string = app.node.tryGetContext('salesGroupId') ?? '5c2dd518-e0d1-7066-1ef6-75b0689f1dd5';
 const inventoryGroupId: string = app.node.tryGetContext('inventoryGroupId') ?? '8cbd15e8-70b1-7077-4112-371c8c8d9404';
-// -c groupGrants=true grants the LF tags to the Identity Center groups instead of the project roles
-const groupGrants = String(app.node.tryGetContext('groupGrants')) === 'true';
 
 const iamStack = new IamStack(app, `${SERVICE_NAME}-${stage}-iam`, { env, stage });
 const lfStack = new LakeFormationStack(app, `${SERVICE_NAME}-${stage}-lakeformation`, {
@@ -26,12 +24,18 @@ const lfStack = new LakeFormationStack(app, `${SERVICE_NAME}-${stage}-lakeformat
   stage,
   dataLakeRole: iamStack.dataLakeRole,
   extraAdminRoles: [iamStack.smusProvisioningRole, iamStack.smusManageAccessRole],
-  groupGrants: groupGrants
-    ? [
-        { groupId: salesGroupId, teamKeys: ['team-a'] },
-        { groupId: inventoryGroupId, teamKeys: ['team-b'] },
-      ]
-    : undefined,
+  // database name -> tables this role may query (direct Lake Formation grants, no tags)
+  namedRoleGrants: [
+    { id: 'team-a-role', role: iamStack.teamARole, tables: { inventory: ['products', 'stock_levels'] } },
+  ],
+  // The LF tags are granted directly to the Identity Center groups
+  groupGrants: [
+    { groupId: salesGroupId, teamKeys: ['team-a'] },
+    { groupId: inventoryGroupId, teamKeys: ['team-b'] },
+  ],
+  tableMode: ['parquet', 'none', 'iceberg'].includes(String(app.node.tryGetContext('tableMode')))
+    ? (String(app.node.tryGetContext('tableMode')) as 'parquet' | 'none' | 'iceberg')
+    : 'parquet',
 });
 lfStack.addDependency(iamStack);
 
@@ -71,7 +75,7 @@ if (String(app.node.tryGetContext('enableIdc')) === 'true') {
       { key: 'team-b', teamKeys: ['team-b'], groupId: inventoryGroupId },
     ],
     nameSuffix: 'idc',
-    skipRoleTagGrants: groupGrants,
+    skipRoleTagGrants: true,
     // Pass -c createGroupProfiles=false when the group profiles already exist in the domain
     createGroupProfiles: String(app.node.tryGetContext('createGroupProfiles')) !== 'false',
     manageAccessRole: iamStack.smusManageAccessRole,
