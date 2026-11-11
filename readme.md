@@ -64,13 +64,29 @@ npx.cmd cdk deploy qcom-datalake-poc-dev-lakeformation -c tableMode=iceberg  # r
 
 In `iceberg` mode Lake Formation grants become SELECT/INSERT/DELETE/ALTER/DESCRIBE, and the
 scenario 3 IAM role also gets S3 write and `glue:UpdateTable`. Scenarios 1 and 2 stay fully
-Lake Formation; scenario 3 stays hybrid. The scenario 3 opted-in-role and LF-tag paths have not
-been separately tested. The `migrate_parquet_to_iceberg.py` script is obsolete and disabled.
+Lake Formation; scenario 3 stays hybrid. Team A has tested SMUS Athena inserts into customers
+and products in all three scenarios, and SMUS native Python inserts into customers using the
+Athena API in all three scenarios. The scenario 3 separate IAM role write path has not been
+tested. The `migrate_parquet_to_iceberg.py` script is obsolete and disabled.
 These are catalog, S3-location, and permission examples. They are not automatically attached to
 the existing Lambda or SMUS projects. Athena workgroup/results access and SMUS compute-role
 configuration must be added separately before using those interfaces to run DML. The existing
 query Lambda remains read-only. The buckets are POC resources with `DESTROY` removal policy and
 auto-delete enabled, so back up data before deleting the stack.
+
+For a Team A SMUS Athena insert test, use `infra/scripts/smus_team_a_athena_inserts.sql`.
+Replace `REPLACE_RUN_ID` throughout with a new SQL-safe identifier for each run, execute each
+statement individually, and check that each verification count is one. The script leaves its
+test rows in place. Results can differ for other users, roles and execution engines.
+AWS documents that [Glue Spark fine-grained access control does not support writes using Lake
+Formation-granted permissions](https://docs.aws.amazon.com/glue/latest/dg/security-lf-enable-considerations.html);
+nevertheless, Team A PySpark FGAC inserts into customers succeeded in all three scenarios in
+this POC and were verified in Athena. For the scenario 1 insert, the Spark system logs reported
+Lake Formation credentials and a successful commit, and the Glue table update carried user
+identity context. This does not establish that Lake Formation INSERT permissions are enforced
+for PySpark writes; the AWS documented limitation remains relevant. A Team A insert into
+scenario 1 orders was denied for lack of DESCRIBE, which does not independently test
+INSERT-only authorization.
 
 ## Private DataZone, Athena, Glue, STS, Lake Formation and S3 endpoints
 
